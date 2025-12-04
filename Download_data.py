@@ -9,7 +9,7 @@ cache_path = kagglehub.dataset_download("crowww/a-large-scale-fish-dataset")
 print("KaggleHub cache path:", cache_path)
 
 # 2. Define your desired local root directory
-target_root = Path(r"D:\Practical_deep_hw1\Data")
+target_root = Path(__file__).parent / "Data"
 target_root.mkdir(parents=True, exist_ok=True)
 
 # 3. Put the dataset under that root (e.g. D:\Practical_deep_hw1\Data\a-large-scale-fish-dataset)

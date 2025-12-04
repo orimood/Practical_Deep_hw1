@@ -278,6 +278,8 @@ def main():
     project_root = Path(__file__).resolve().parent
     dataset_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
 
+    plots_dir = project_root / "plots"
+
     # Transforms
     train_transform = transforms.Compose([
         transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
@@ -314,6 +316,11 @@ def main():
         # Track fold separately
         wandb.run.name = f"fold_{fold_idx}"
 
+        # Per-fold history for plotting
+        train_losses_history: List[float] = []
+        val_losses_history: List[float] = []
+        val_acc_history: List[float] = []
+
         train_dataset = Subset(base_dataset, train_idx)
         val_dataset = Subset(base_dataset, val_idx)
 
@@ -335,8 +342,14 @@ def main():
             train_loss = train_one_epoch(model, train_loader, criterion, optimizer)
             val_loss, val_preds, _, val_labels = evaluate(model, val_loader, criterion)
 
+            # record histories
+            train_losses_history.append(float(train_loss))
+            val_losses_history.append(float(val_loss))
+
             val_acc = accuracy_score(val_labels, val_preds)
             val_f1 = f1_score(val_labels, val_preds, average="macro")
+
+            val_acc_history.append(float(val_acc))
 
             print(
                 f"Fold {fold_idx} | Epoch {epoch:02d} "
@@ -371,6 +384,12 @@ def main():
         if best_state_dict is not None:
             model.load_state_dict(best_state_dict)
 
+        # Evaluate on training set for comparison (final model for this fold)
+        train_loader_eval = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS)
+        train_loss, train_preds, train_probs, train_labels_eval = evaluate(model, train_loader_eval, criterion)
+        train_acc = accuracy_score(train_labels_eval, train_preds)
+        train_f1 = f1_score(train_labels_eval, train_preds, average="macro")
+
         # Final fold evaluation
         val_loss, val_preds, val_probs, val_labels = evaluate(model, val_loader, criterion)
         fold_acc = accuracy_score(val_labels, val_preds)
@@ -380,7 +399,15 @@ def main():
         print(f"Fold {fold_idx} final val macro F1: {fold_macro_f1:.4f}")
 
         fold_metrics.append(
-            {"fold": fold_idx, "val_accuracy": fold_acc, "val_macro_f1": fold_macro_f1}
+            {
+                "fold": fold_idx,
+                "val_accuracy": fold_acc,
+                "val_macro_f1": fold_macro_f1,
+                "val_loss": float(val_loss),
+                "train_accuracy": float(train_acc),
+                "train_macro_f1": float(train_f1),
+                "train_loss": float(train_loss),
+            }
         )
 
         # Store OOF predictions
@@ -391,7 +418,22 @@ def main():
         wandb.log({
             f"fold_{fold_idx}/final_accuracy": fold_acc,
             f"fold_{fold_idx}/final_macro_f1": fold_macro_f1,
+            f"fold_{fold_idx}/train_accuracy": train_acc,
         })
+
+        # Save training curves and example images for this fold
+        curves_path = plots_dir / f"fold_{fold_idx}_training_curves.png"
+        # train_losses_history and val_losses_history were defined earlier in this loop
+        try:
+            save_training_curves(train_losses_history, val_losses_history, val_acc_history, curves_path, fold_idx)
+        except Exception as e:
+            print(f"Warning: could not save training curves for fold {fold_idx}: {e}")
+
+        examples_path = plots_dir / f"fold_{fold_idx}_examples.png"
+        try:
+            save_example_predictions(base_dataset, val_idx, val_preds, val_probs, val_labels, base_dataset.class_names, examples_path, top_k=3)
+        except Exception as e:
+            print(f"Warning: could not save example predictions for fold {fold_idx}: {e}")
 
     # -------------------------
     # Metrics table
@@ -426,6 +468,27 @@ def main():
             digits=4,
         )
     )
+
+    # Compare aggregated OOF metrics to mean of per-fold metrics
+    agg_acc = accuracy_score(all_labels, oof_preds)
+    agg_f1 = f1_score(all_labels, oof_preds, average="macro")
+    print("Aggregated OOF metrics:")
+    print({"accuracy": agg_acc, "macro_f1": agg_f1})
+
+    print("\nComparison: mean-per-fold vs aggregated OOF")
+    print({"mean_val_accuracy": mean_acc, "mean_val_macro_f1": mean_f1, "oof_accuracy": agg_acc, "oof_macro_f1": agg_f1})
+
+    # Save fold metrics and aggregated metrics
+    metrics_out = project_root / "plots" / "fold_metrics_summary.csv"
+    metrics_df.to_csv(metrics_out, index=False)
+    try:
+        with open(project_root / "plots" / "oof_summary.txt", "w") as fh:
+            fh.write(f"OOF accuracy: {agg_acc}\n")
+            fh.write(f"OOF macro_f1: {agg_f1}\n")
+            fh.write(f"Mean val accuracy: {mean_acc}\n")
+            fh.write(f"Mean val macro_f1: {mean_f1}\n")
+    except Exception:
+        pass
 
     # Log confusion matrix (OOF)
     cm = confusion_matrix(all_labels, oof_preds)

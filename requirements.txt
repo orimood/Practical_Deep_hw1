@@ -1,12 +1,14 @@
-torch==2.0.1+cu117
-torchvision==0.15.2+cu117
-torchaudio==2.0.2+cu117
-numpy<2
+# torch==2.0.1+cu118
+# torchvision==0.15.2+cu118
+# torchaudio==2.0.2+cu118
+torch==2.7.1+cu118
+torchvision==0.22.1+cu118
+wandb==0.23.1
+numpy
 pandas
 pillow
 matplotlib
 seaborn
 scikit-learn
-kagglehub
-wandb
+kaggle
 timm

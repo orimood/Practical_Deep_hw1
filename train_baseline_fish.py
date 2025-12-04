@@ -276,7 +276,7 @@ def main():
     )
 
     project_root = Path(__file__).resolve().parent
-    dataset_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    dataset_root = project_root / "Data" / "train"
 
     plots_dir = project_root / "plots"
 
@@ -420,20 +420,6 @@ def main():
             f"fold_{fold_idx}/final_macro_f1": fold_macro_f1,
             f"fold_{fold_idx}/train_accuracy": train_acc,
         })
-
-        # Save training curves and example images for this fold
-        curves_path = plots_dir / f"fold_{fold_idx}_training_curves.png"
-        # train_losses_history and val_losses_history were defined earlier in this loop
-        try:
-            save_training_curves(train_losses_history, val_losses_history, val_acc_history, curves_path, fold_idx)
-        except Exception as e:
-            print(f"Warning: could not save training curves for fold {fold_idx}: {e}")
-
-        examples_path = plots_dir / f"fold_{fold_idx}_examples.png"
-        try:
-            save_example_predictions(base_dataset, val_idx, val_preds, val_probs, val_labels, base_dataset.class_names, examples_path, top_k=3)
-        except Exception as e:
-            print(f"Warning: could not save example predictions for fold {fold_idx}: {e}")
 
     # -------------------------
     # Metrics table

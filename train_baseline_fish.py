@@ -15,6 +15,8 @@ import os
 from pathlib import Path
 from typing import List, Tuple, Dict
 
+import wandb
+
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -252,34 +254,47 @@ def plot_confusion_matrix(cm: np.ndarray, class_names: List[str], save_path: Pat
 # -------------------------
 # Main K-Fold training
 # -------------------------
+import wandb
 
 def main():
+    # -----------------------------
+    # Init W&B
+    # -----------------------------
+    wandb.login()   # optional, if not logged in
+    wandb.init(
+        project="fish_classification_kfold",
+        name="kfold_training",
+        config={
+            "image_size": IMAGE_SIZE,
+            "num_folds": NUM_FOLDS,
+            "batch_size": BATCH_SIZE,
+            "learning_rate": LEARNING_RATE,
+            "epochs": NUM_EPOCHS,
+            "patience": PATIENCE,
+            "seed": SEED,
+        }
+    )
+
     project_root = Path(__file__).resolve().parent
     dataset_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
 
-    # Transforms: mild augmentations for train, plain resize for val
-    train_transform = transforms.Compose(
-        [
-            transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(10),
-            transforms.ColorJitter(brightness=0.1, contrast=0.1),
-            transforms.ToTensor(),
-        ]
-    )
+    # Transforms
+    train_transform = transforms.Compose([
+        transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomRotation(10),
+        transforms.ColorJitter(brightness=0.1, contrast=0.1),
+        transforms.ToTensor(),
+    ])
 
-    val_transform = transforms.Compose(
-        [
-            transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
-            transforms.ToTensor(),
-        ]
-    )
+    val_transform = transforms.Compose([
+        transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
+        transforms.ToTensor(),
+    ])
 
-    # Base dataset (we will swap transform when creating subsets)
     base_dataset = FishRGBDataset(root_dir=dataset_root, transform=None)
     num_classes = len(base_dataset.class_names)
 
-    # Prepare labels array for StratifiedKFold
     all_labels = np.array([label for _, label in base_dataset.samples])
     all_indices = np.arange(len(all_labels))
 
@@ -290,36 +305,23 @@ def main():
     )
 
     fold_metrics = []
-
-    # These will store out-of-fold predictions to build a "global test" view
     oof_preds = np.zeros_like(all_labels)
     oof_probs = np.zeros((len(all_labels), num_classes))
 
     for fold_idx, (train_idx, val_idx) in enumerate(skf.split(all_indices, all_labels), start=1):
         print(f"\n===== Fold {fold_idx}/{NUM_FOLDS} =====")
 
-        # Create per-fold datasets by changing transform
+        # Track fold separately
+        wandb.run.name = f"fold_{fold_idx}"
+
         train_dataset = Subset(base_dataset, train_idx)
         val_dataset = Subset(base_dataset, val_idx)
 
-        # We need to set transforms on the underlying dataset objects.
-        # Easiest: wrap subsets in new Dataset classes that apply transforms.
         train_dataset.dataset.transform = train_transform
         val_dataset.dataset.transform = val_transform
 
-        train_loader = DataLoader(
-            train_dataset,
-            batch_size=BATCH_SIZE,
-            shuffle=True,
-            num_workers=NUM_WORKERS,
-        )
-
-        val_loader = DataLoader(
-            val_dataset,
-            batch_size=BATCH_SIZE,
-            shuffle=False,
-            num_workers=NUM_WORKERS,
-        )
+        train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS)
+        val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS)
 
         model = SimpleCNN(num_classes=num_classes).to(device)
         criterion = nn.CrossEntropyLoss()
@@ -344,7 +346,18 @@ def main():
                 f"| val_macro_f1={val_f1:.4f}"
             )
 
-            # Early stopping on validation accuracy
+            # -----------------------------
+            # Log to W&B
+            # -----------------------------
+            wandb.log({
+                f"fold_{fold_idx}/train_loss": train_loss,
+                f"fold_{fold_idx}/val_loss": val_loss,
+                f"fold_{fold_idx}/val_accuracy": val_acc,
+                f"fold_{fold_idx}/val_macro_f1": val_f1,
+                "epoch": epoch,
+            })
+
+            # Early stopping
             if val_acc > best_val_acc:
                 best_val_acc = val_acc
                 best_state_dict = model.state_dict()
@@ -355,13 +368,11 @@ def main():
                     print("Early stopping triggered.")
                     break
 
-        # Load best weights for this fold
         if best_state_dict is not None:
             model.load_state_dict(best_state_dict)
 
-        # Final evaluation on validation (for this fold)
+        # Final fold evaluation
         val_loss, val_preds, val_probs, val_labels = evaluate(model, val_loader, criterion)
-
         fold_acc = accuracy_score(val_labels, val_preds)
         fold_macro_f1 = f1_score(val_labels, val_preds, average="macro")
 
@@ -369,16 +380,18 @@ def main():
         print(f"Fold {fold_idx} final val macro F1: {fold_macro_f1:.4f}")
 
         fold_metrics.append(
-            {
-                "fold": fold_idx,
-                "val_accuracy": fold_acc,
-                "val_macro_f1": fold_macro_f1,
-            }
+            {"fold": fold_idx, "val_accuracy": fold_acc, "val_macro_f1": fold_macro_f1}
         )
 
-        # Store out-of-fold predictions/probabilities
+        # Store OOF predictions
         oof_preds[val_idx] = val_preds
         oof_probs[val_idx] = val_probs
+
+        # Log fold-level aggregated metrics
+        wandb.log({
+            f"fold_{fold_idx}/final_accuracy": fold_acc,
+            f"fold_{fold_idx}/final_macro_f1": fold_macro_f1,
+        })
 
     # -------------------------
     # Metrics table
@@ -388,14 +401,23 @@ def main():
     print("\nPer-fold validation metrics:")
     print(metrics_df.to_string(index=False))
 
+    mean_acc = metrics_df["val_accuracy"].mean()
+    mean_f1 = metrics_df["val_macro_f1"].mean()
+
     print("\nMean metrics over folds:")
-    print(metrics_df[["val_accuracy", "val_macro_f1"]].mean())
+    print({"accuracy": mean_acc, "macro_f1": mean_f1})
+
+    # Log aggregated metrics
+    wandb.log({
+        "mean_accuracy": mean_acc,
+        "mean_macro_f1": mean_f1,
+    })
 
     # -------------------------
-    # Global out-of-fold report & confusion matrix
+    # Global out-of-fold report
     # -------------------------
 
-    print("\nClassification report (out-of-fold predictions):")
+    print("\nClassification report (OOF):")
     print(
         classification_report(
             all_labels,
@@ -405,12 +427,17 @@ def main():
         )
     )
 
+    # Log confusion matrix (OOF)
     cm = confusion_matrix(all_labels, oof_preds)
+
     plots_dir = project_root / "plots"
     cm_path = plots_dir / "confusion_matrix_baseline_oof.png"
     plot_confusion_matrix(cm, base_dataset.class_names, cm_path)
     print(f"Confusion matrix saved to: {cm_path}")
 
+    wandb.log({"confusion_matrix_oof": wandb.Image(str(cm_path))})
+
+    wandb.finish()
 
 if __name__ == "__main__":
     main()

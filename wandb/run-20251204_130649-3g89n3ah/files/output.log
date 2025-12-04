@@ -1,0 +1,15 @@
+Found 9000 images across 9 classes.
+
+===== Fold 1/5 =====
+Traceback (most recent call last):
+  File "d:\Projects\Practical_Deep_hw1\train_baseline_fish.py", line 444, in <module>
+    main()
+  File "d:\Projects\Practical_Deep_hw1\train_baseline_fish.py", line 316, in main
+    wandb.run.save()
+  File "D:\Projects\Practical_Deep_hw1\.venv\lib\site-packages\wandb\sdk\wandb_run.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\Projects\Practical_Deep_hw1\.venv\lib\site-packages\wandb\sdk\wandb_run.py", line 458, in wrapper_fn
+    return func(self, *args, **kwargs)
+  File "D:\Projects\Practical_Deep_hw1\.venv\lib\site-packages\wandb\sdk\wandb_run.py", line 445, in wrapper
+    return func(self, *args, **kwargs)
+TypeError: Run.save() missing 1 required positional argument: 'glob_str'

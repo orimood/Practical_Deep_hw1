@@ -57,8 +57,6 @@ np.random.seed(SEED)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-
 # -------------------------
 # Dataset
 # -------------------------
@@ -264,6 +262,7 @@ def main():
     wandb.init(
         project="fish_classification_kfold",
         entity="orisin-ben-gurion-university-of-the-negev",
+        settings=wandb.Settings(_disable_stats=True),
         name="kfold_training",
         config={
             "image_size": IMAGE_SIZE,

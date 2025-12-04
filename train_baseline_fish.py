@@ -263,6 +263,7 @@ def main():
     wandb.login()   # optional, if not logged in
     wandb.init(
         project="fish_classification_kfold",
+        entity="orisin-ben-gurion-university-of-the-negev",
         name="kfold_training",
         config={
             "image_size": IMAGE_SIZE,

@@ -61,54 +61,73 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Dataset
 # -------------------------
 
-class FishRGBDataset(Dataset):
+class WhaleDataset(Dataset):
     """
-    Dataset that loads RGB images only, without masks.
-    Assumes directory structure:
+    Dataset that loads RGB images from a flat 'train' folder using a CSV file
+    with labels.
 
-    Data/2/Fish_Dataset/Fish_Dataset/
-        Black Sea Sprat/
-            Black Sea Sprat/*.png          <-- RGB
-            Black Sea Sprat GT/*.png       <-- masks (ignored here)
-        Gilt-Head Bream/
-            Gilt-Head Bream/*.png
-            Gilt-Head Bream GT/*.png
-        ...
+    Expected:
 
-    Each class folder has a subfolder with the same name containing RGB images.
+        root_dir/
+            0a0c1df99.jpg
+            0a00c7a0f.jpg
+            ...
+
+        labels_csv (e.g. Data/train.csv) with columns:
+            Image, Id
     """
 
-    def __init__(self, root_dir: Path, transform=None):
-        """
-        :param root_dir: Path to Fish_Dataset (the one that contains the 9 classes)
-        :param transform: torchvision transforms to apply to PIL image
-        """
+    def __init__(
+        self,
+        root_dir: Path,
+        labels_csv: Path,
+        image_col: str = "Image",
+        label_col: str = "Id",
+        transform=None,
+    ):
         self.root_dir = root_dir
         self.transform = transform
 
-        self.class_names = sorted(
-            [
-                d.name
-                for d in root_dir.iterdir()
-                if d.is_dir() and not d.name.startswith(".")
-            ]
-        )
+        if not self.root_dir.is_dir():
+            raise RuntimeError(f"Dataset root directory does not exist: {self.root_dir}")
 
-        # Map class name to integer label
+        if not labels_csv.is_file():
+            raise RuntimeError(f"Labels CSV not found at: {labels_csv}")
+
+        df = pd.read_csv(labels_csv)
+
+        if image_col not in df.columns or label_col not in df.columns:
+            raise RuntimeError(
+                f"CSV {labels_csv} must contain columns '{image_col}' and '{label_col}'. "
+                f"Found columns: {list(df.columns)}"
+            )
+
+        # Class names from Id column
+        self.class_names = sorted(df[label_col].unique().tolist())
+
+        # Map class name to integer label index
         self.class_to_idx: Dict[str, int] = {
             cls_name: idx for idx, cls_name in enumerate(self.class_names)
         }
 
-        # Build list of (image_path, label)
+        # Build list of (image_path, label_idx)
         self.samples: List[Tuple[Path, int]] = []
-        for cls_name in self.class_names:
-            rgb_folder = root_dir / cls_name / cls_name  # e.g. "Black Sea Sprat/Black Sea Sprat"
-            if not rgb_folder.is_dir():
-                raise RuntimeError(f"Expected RGB folder {rgb_folder} not found")
+        for _, row in df.iterrows():
+            img_name = str(row[image_col])
+            cls_name = row[label_col]
 
-            for img_path in sorted(rgb_folder.glob("*.png")):
-                label = self.class_to_idx[cls_name]
-                self.samples.append((img_path, label))
+            img_path = self.root_dir / img_name
+            if not img_path.is_file():
+                raise RuntimeError(f"Image file listed in CSV not found: {img_path}")
+
+            label_idx = self.class_to_idx[cls_name]
+            self.samples.append((img_path, label_idx))
+
+        if len(self.samples) == 0:
+            raise RuntimeError(
+                f"Found 0 valid samples in {labels_csv} / {self.root_dir}. "
+                "Check that the CSV filenames match the files in the train folder."
+            )
 
         print(f"Found {len(self.samples)} images across {len(self.class_names)} classes.")
 
@@ -260,7 +279,7 @@ def main():
     # -----------------------------
     wandb.login()   # optional, if not logged in
     wandb.init(
-        project="fish_classification_kfold",
+        project="whale_classification_kfold",
         entity="orisin-ben-gurion-university-of-the-negev",
         settings=wandb.Settings(_disable_stats=True),
         name="kfold_training",
@@ -277,6 +296,16 @@ def main():
 
     project_root = Path(__file__).resolve().parent
     dataset_root = project_root / "Data" / "train"
+    labels_csv = project_root / "Data" / "train.csv"
+
+    base_dataset = WhaleDataset(
+        root_dir=dataset_root,
+        labels_csv=labels_csv,
+        image_col="Image",
+        label_col="Id",
+        transform=None,
+    )
+
 
     plots_dir = project_root / "plots"
 
@@ -294,7 +323,6 @@ def main():
         transforms.ToTensor(),
     ])
 
-    base_dataset = FishRGBDataset(root_dir=dataset_root, transform=None)
     num_classes = len(base_dataset.class_names)
 
     all_labels = np.array([label for _, label in base_dataset.samples])

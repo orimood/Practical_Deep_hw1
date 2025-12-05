@@ -1,0 +1,137 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Assignment 1 – Practical Deep Learning Workshop}
+\author{Ori Sinvani - 325770824
+Harel Brener - 214179012}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Your abstract.
+\end{abstract}
+
+\section*{Introduction}
+
+
+\section{Question 1 – Exploratory Data Analysis}
+
+\subsection*{a – Size of Data}
+
+The Humpback Whale Identification dataset contains thousands of labeled images of whale flukes.  
+According to the loaded training metadata:
+
+\begin{itemize}
+    \item \textbf{Train samples}:  \(\approx 25{,}000\) images.
+    \item \textbf{Unique whale IDs}: Over \(3{,}000\) individuals.
+    \item A special label \texttt{new\_whale} contains:
+    \[
+        9{,}664 \text{ samples}
+    \]
+    and represents whales that the model should treat as unseen.
+\end{itemize}
+
+Thus, the dataset is large in total number of images, but extremely sparse per identity.
+
+\subsection*{b – What Each Sample Contains}
+
+Each training sample consists of:
+
+\begin{itemize}
+    \item A \textbf{color image} of a whale fluke.
+    \item Image shapes vary significantly.  
+    The most common resolutions among the sample inspected were:
+    \begin{align*}
+        1050 \times 700 \\
+        1050 \times 450 \\
+        1050 \times 600 \\
+        700 \times 500
+    \end{align*}
+    \item Most images are stored in:
+    \[
+        \text{RGB mode (3 channels)}
+    \]
+    although a small subset is grayscale.
+\end{itemize}
+
+Because of the non-uniform image sizes and channel inconsistencies, preprocessing is required.
+
+\subsection*{Preprocessing Suggestions}
+
+Based on the dataset analysis:
+
+\begin{itemize}
+    \item Convert all images to \textbf{RGB}.
+    \item Resize or center-crop all images to a uniform spatial size  
+    (e.g., \(224\times224\) or \(256\times256\)) for CNN training.
+    \item Normalize using ImageNet mean and standard deviation when using pretrained backbones.
+\end{itemize}
+
+Additional augmentations that are valid for whale flukes include:
+
+\begin{itemize}
+    \item Horizontal flipping (flukes are symmetric).
+    \item Random rotations.
+    \item Color jitter (illumination varies strongly across images).
+    \item Random zoom/crop to account for different distances from camera.
+\end{itemize}
+
+These transformations preserve the identity-defining patterns of the whale fluke while improving generalization.
+
+\subsection*{c – Is the Data Balanced?}
+
+No — the dataset is \textbf{extremely imbalanced}.  
+The distribution of samples per whale ID is:
+
+\begin{itemize}
+    \item \textbf{Minimum images per ID}: 1  
+    \item \textbf{Median per ID}: 2  
+    \item \textbf{Mean per ID}: 5.07  
+    \item \textbf{Maximum per ID}: 9{,}664 (the \texttt{new\_whale} class)
+\end{itemize}
+
+Most whales appear very few times, often only once.  
+This makes classification extremely challenging and motivates the use of:
+
+\begin{itemize}
+    \item Metric learning (triplet loss, arcface)
+    \item Embedding-based retrieval instead of softmax classification
+    \item Extensive augmentation
+\end{itemize}
+
+\subsection*{d – Benchmark Results (Related Work)}
+
+Prior work on the Kaggle whale challenge and similar fine-grained re-identification tasks reports:
+
+\begin{itemize}
+    \item Simple CNN classifiers perform poorly due to the extreme class imbalance.
+    \item Models using \textbf{metric learning} (e.g., Siamese networks, triplet loss, cosine-margin losses) achieve far stronger performance.
+    \item State-of-the-art approaches typically use:
+    \begin{itemize}
+        \item Pretrained ImageNet backbones (ResNet50, Inception, EfficientNet)
+        \item Heavy augmentation
+        \item Feature embedding + nearest-neighbor search for identity retrieval
+    \end{itemize}
+\end{itemize}
+
+Reported top solutions achieve high leaderboard accuracy by combining deep embeddings with k-NN on the test embeddings rather than pure classification.
+
+Overall, the dataset’s imbalance and limited per-whale examples require more sophisticated approaches than standard supervised classification.
+
+
+
+
+\end{document}

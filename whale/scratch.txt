@@ -1,0 +1,131 @@
+D:\Practical_deep_hw1\.venv\Scripts\python.exe D:\Practical_deep_hw1\train_baseline_fish.py 
+Found 9000 images across 9 classes.
+
+===== Fold 1/5 =====
+Fold 1 | Epoch 01 | train_loss=2.0064 | val_loss=1.8185 | val_acc=0.2361 | val_macro_f1=0.1505
+Fold 1 | Epoch 02 | train_loss=1.8267 | val_loss=1.6506 | val_acc=0.3461 | val_macro_f1=0.3015
+Fold 1 | Epoch 03 | train_loss=1.5081 | val_loss=1.3088 | val_acc=0.4600 | val_macro_f1=0.4101
+Fold 1 | Epoch 04 | train_loss=1.2418 | val_loss=1.0446 | val_acc=0.5861 | val_macro_f1=0.5603
+Fold 1 | Epoch 05 | train_loss=1.0905 | val_loss=0.9446 | val_acc=0.6200 | val_macro_f1=0.6058
+Fold 1 | Epoch 06 | train_loss=1.0009 | val_loss=0.8958 | val_acc=0.6111 | val_macro_f1=0.5848
+Fold 1 | Epoch 07 | train_loss=0.9443 | val_loss=0.7877 | val_acc=0.6622 | val_macro_f1=0.6387
+Fold 1 | Epoch 08 | train_loss=0.8551 | val_loss=0.7265 | val_acc=0.6917 | val_macro_f1=0.6781
+Fold 1 | Epoch 09 | train_loss=0.8105 | val_loss=0.8140 | val_acc=0.6667 | val_macro_f1=0.6492
+Fold 1 | Epoch 10 | train_loss=0.7445 | val_loss=0.6310 | val_acc=0.7378 | val_macro_f1=0.7280
+Fold 1 | Epoch 11 | train_loss=0.6822 | val_loss=0.5655 | val_acc=0.7783 | val_macro_f1=0.7694
+Fold 1 | Epoch 12 | train_loss=0.6551 | val_loss=0.5192 | val_acc=0.7839 | val_macro_f1=0.7760
+Fold 1 | Epoch 13 | train_loss=0.6275 | val_loss=0.4718 | val_acc=0.8039 | val_macro_f1=0.8027
+Fold 1 | Epoch 14 | train_loss=0.5825 | val_loss=0.4174 | val_acc=0.8211 | val_macro_f1=0.8133
+Fold 1 | Epoch 15 | train_loss=0.5558 | val_loss=0.4323 | val_acc=0.8389 | val_macro_f1=0.8373
+Fold 1 final val accuracy: 0.8389
+Fold 1 final val macro F1: 0.8373
+
+===== Fold 2/5 =====
+Fold 2 | Epoch 01 | train_loss=2.0092 | val_loss=1.7295 | val_acc=0.2961 | val_macro_f1=0.2228
+Fold 2 | Epoch 02 | train_loss=1.5701 | val_loss=1.2507 | val_acc=0.5217 | val_macro_f1=0.4860
+Fold 2 | Epoch 03 | train_loss=1.2661 | val_loss=1.0689 | val_acc=0.5644 | val_macro_f1=0.5250
+Fold 2 | Epoch 04 | train_loss=1.1166 | val_loss=0.9660 | val_acc=0.6222 | val_macro_f1=0.6145
+Fold 2 | Epoch 05 | train_loss=1.0458 | val_loss=0.9026 | val_acc=0.6183 | val_macro_f1=0.6029
+Fold 2 | Epoch 06 | train_loss=0.9735 | val_loss=0.9262 | val_acc=0.5956 | val_macro_f1=0.5717
+Fold 2 | Epoch 07 | train_loss=0.9139 | val_loss=0.7858 | val_acc=0.6800 | val_macro_f1=0.6630
+Fold 2 | Epoch 08 | train_loss=0.8514 | val_loss=0.7558 | val_acc=0.6767 | val_macro_f1=0.6625
+Fold 2 | Epoch 09 | train_loss=0.7876 | val_loss=0.6253 | val_acc=0.7561 | val_macro_f1=0.7427
+Fold 2 | Epoch 10 | train_loss=0.7360 | val_loss=0.9230 | val_acc=0.6161 | val_macro_f1=0.6236
+Fold 2 | Epoch 11 | train_loss=0.6723 | val_loss=0.4701 | val_acc=0.8428 | val_macro_f1=0.8369
+Fold 2 | Epoch 12 | train_loss=0.5817 | val_loss=0.4464 | val_acc=0.8244 | val_macro_f1=0.8182
+Fold 2 | Epoch 13 | train_loss=0.5459 | val_loss=0.4131 | val_acc=0.8367 | val_macro_f1=0.8327
+Fold 2 | Epoch 14 | train_loss=0.5019 | val_loss=0.4245 | val_acc=0.8294 | val_macro_f1=0.8264
+Early stopping triggered.
+Fold 2 final val accuracy: 0.8294
+Fold 2 final val macro F1: 0.8264
+
+===== Fold 3/5 =====
+Fold 3 | Epoch 01 | train_loss=1.9785 | val_loss=1.6417 | val_acc=0.3439 | val_macro_f1=0.2610
+Fold 3 | Epoch 02 | train_loss=1.4577 | val_loss=1.2094 | val_acc=0.5239 | val_macro_f1=0.4817
+Fold 3 | Epoch 03 | train_loss=1.2336 | val_loss=1.0921 | val_acc=0.5817 | val_macro_f1=0.5560
+Fold 3 | Epoch 04 | train_loss=1.1052 | val_loss=0.9762 | val_acc=0.6022 | val_macro_f1=0.5906
+Fold 3 | Epoch 05 | train_loss=1.0525 | val_loss=0.9427 | val_acc=0.6122 | val_macro_f1=0.6146
+Fold 3 | Epoch 06 | train_loss=0.9720 | val_loss=0.8137 | val_acc=0.6767 | val_macro_f1=0.6663
+Fold 3 | Epoch 07 | train_loss=0.8841 | val_loss=0.7807 | val_acc=0.6739 | val_macro_f1=0.6623
+Fold 3 | Epoch 08 | train_loss=0.8201 | val_loss=0.7761 | val_acc=0.6622 | val_macro_f1=0.6470
+Fold 3 | Epoch 09 | train_loss=0.7910 | val_loss=0.6443 | val_acc=0.7506 | val_macro_f1=0.7410
+Fold 3 | Epoch 10 | train_loss=0.7358 | val_loss=0.6172 | val_acc=0.7472 | val_macro_f1=0.7410
+Fold 3 | Epoch 11 | train_loss=0.6960 | val_loss=0.5795 | val_acc=0.7600 | val_macro_f1=0.7548
+Fold 3 | Epoch 12 | train_loss=0.6803 | val_loss=0.5075 | val_acc=0.8067 | val_macro_f1=0.8029
+Fold 3 | Epoch 13 | train_loss=0.6266 | val_loss=0.4480 | val_acc=0.8511 | val_macro_f1=0.8471
+Fold 3 | Epoch 14 | train_loss=0.5713 | val_loss=0.4334 | val_acc=0.8461 | val_macro_f1=0.8441
+Fold 3 | Epoch 15 | train_loss=0.5411 | val_loss=0.4504 | val_acc=0.8333 | val_macro_f1=0.8287
+Fold 3 final val accuracy: 0.8333
+Fold 3 final val macro F1: 0.8287
+
+===== Fold 4/5 =====
+Fold 4 | Epoch 01 | train_loss=2.0126 | val_loss=1.8629 | val_acc=0.2456 | val_macro_f1=0.1777
+Fold 4 | Epoch 02 | train_loss=1.7421 | val_loss=1.5017 | val_acc=0.3917 | val_macro_f1=0.3219
+Fold 4 | Epoch 03 | train_loss=1.4445 | val_loss=1.3124 | val_acc=0.4611 | val_macro_f1=0.4126
+Fold 4 | Epoch 04 | train_loss=1.2479 | val_loss=1.0859 | val_acc=0.5783 | val_macro_f1=0.5250
+Fold 4 | Epoch 05 | train_loss=1.0791 | val_loss=0.9768 | val_acc=0.6067 | val_macro_f1=0.5983
+Fold 4 | Epoch 06 | train_loss=0.9780 | val_loss=0.8259 | val_acc=0.6778 | val_macro_f1=0.6600
+Fold 4 | Epoch 07 | train_loss=0.8810 | val_loss=0.8031 | val_acc=0.6739 | val_macro_f1=0.6635
+Fold 4 | Epoch 08 | train_loss=0.8240 | val_loss=0.7457 | val_acc=0.7256 | val_macro_f1=0.7103
+Fold 4 | Epoch 09 | train_loss=0.7543 | val_loss=0.6370 | val_acc=0.7717 | val_macro_f1=0.7616
+Fold 4 | Epoch 10 | train_loss=0.6817 | val_loss=0.5634 | val_acc=0.7972 | val_macro_f1=0.7986
+Fold 4 | Epoch 11 | train_loss=0.6260 | val_loss=0.4766 | val_acc=0.8317 | val_macro_f1=0.8273
+Fold 4 | Epoch 12 | train_loss=0.5480 | val_loss=0.4838 | val_acc=0.8350 | val_macro_f1=0.8323
+Fold 4 | Epoch 13 | train_loss=0.5152 | val_loss=0.3795 | val_acc=0.8889 | val_macro_f1=0.8874
+Fold 4 | Epoch 14 | train_loss=0.5225 | val_loss=0.4470 | val_acc=0.8472 | val_macro_f1=0.8399
+Fold 4 | Epoch 15 | train_loss=0.4773 | val_loss=0.3570 | val_acc=0.8717 | val_macro_f1=0.8694
+Fold 4 final val accuracy: 0.8717
+Fold 4 final val macro F1: 0.8694
+
+===== Fold 5/5 =====
+Fold 5 | Epoch 01 | train_loss=2.0159 | val_loss=1.8409 | val_acc=0.2533 | val_macro_f1=0.1725
+Fold 5 | Epoch 02 | train_loss=1.7169 | val_loss=1.5596 | val_acc=0.3483 | val_macro_f1=0.3055
+Fold 5 | Epoch 03 | train_loss=1.4474 | val_loss=1.2222 | val_acc=0.5278 | val_macro_f1=0.4809
+Fold 5 | Epoch 04 | train_loss=1.2297 | val_loss=1.0854 | val_acc=0.5661 | val_macro_f1=0.5170
+Fold 5 | Epoch 05 | train_loss=1.1034 | val_loss=0.9700 | val_acc=0.6267 | val_macro_f1=0.5967
+Fold 5 | Epoch 06 | train_loss=1.0167 | val_loss=0.8520 | val_acc=0.6800 | val_macro_f1=0.6666
+Fold 5 | Epoch 07 | train_loss=0.9307 | val_loss=0.8115 | val_acc=0.6850 | val_macro_f1=0.6693
+Fold 5 | Epoch 08 | train_loss=0.8607 | val_loss=0.7867 | val_acc=0.6839 | val_macro_f1=0.6848
+Fold 5 | Epoch 09 | train_loss=0.8057 | val_loss=0.6897 | val_acc=0.7350 | val_macro_f1=0.7201
+Fold 5 | Epoch 10 | train_loss=0.7697 | val_loss=0.5736 | val_acc=0.7744 | val_macro_f1=0.7710
+Fold 5 | Epoch 11 | train_loss=0.7121 | val_loss=0.5637 | val_acc=0.7844 | val_macro_f1=0.7775
+Fold 5 | Epoch 12 | train_loss=0.6617 | val_loss=0.5547 | val_acc=0.7744 | val_macro_f1=0.7663
+Fold 5 | Epoch 13 | train_loss=0.6636 | val_loss=0.4740 | val_acc=0.8311 | val_macro_f1=0.8250
+Fold 5 | Epoch 14 | train_loss=0.6321 | val_loss=0.4986 | val_acc=0.8111 | val_macro_f1=0.8086
+Fold 5 | Epoch 15 | train_loss=0.5960 | val_loss=0.4999 | val_acc=0.7967 | val_macro_f1=0.7965
+Fold 5 final val accuracy: 0.7967
+Fold 5 final val macro F1: 0.7965
+
+Per-fold validation metrics:
+ fold  val_accuracy  val_macro_f1
+    1      0.838889      0.837270
+    2      0.829444      0.826406
+    3      0.833333      0.828703
+    4      0.871667      0.869405
+    5      0.796667      0.796545
+
+Mean metrics over folds:
+val_accuracy    0.834000
+val_macro_f1    0.831666
+dtype: float64
+
+Classification report (out-of-fold predictions):
+                    precision    recall  f1-score   support
+
+   Black Sea Sprat     0.8905    0.9680    0.9276      1000
+   Gilt-Head Bream     0.7358    0.6240    0.6753      1000
+   Hourse Mackerel     0.7839    0.8450    0.8133      1000
+        Red Mullet     1.0000    0.9810    0.9904      1000
+     Red Sea Bream     0.7734    0.6520    0.7075      1000
+          Sea Bass     0.6946    0.7050    0.6998      1000
+            Shrimp     0.9696    0.9250    0.9468      1000
+Striped Red Mullet     0.8923    0.8950    0.8937      1000
+             Trout     0.7649    0.9110    0.8316      1000
+
+          accuracy                         0.8340      9000
+         macro avg     0.8339    0.8340    0.8318      9000
+      weighted avg     0.8339    0.8340    0.8318      9000
+
+Confusion matrix saved to: D:\Practical_deep_hw1\plots\confusion_matrix_baseline_oof.png
+
+Process finished with exit code 0

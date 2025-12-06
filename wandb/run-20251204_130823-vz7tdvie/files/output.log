@@ -1,5 +1,0 @@
-Found 9000 images across 9 classes.
-
-===== Fold 1/5 =====
-Fold 1 | Epoch 01 | train_loss=2.0068 | val_loss=1.8106 | val_acc=0.2378 | val_macro_f1=0.1377
-Fold 1 | Epoch 02 | train_loss=1.6744 | val_loss=1.4327 | val_acc=0.4256 | val_macro_f1=0.3816

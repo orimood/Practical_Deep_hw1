@@ -8,5 +8,7 @@ pillow
 matplotlib
 seaborn
 scikit-learn
-kaggle
+kagglehub
 timm
+ipykernel
+tqdm

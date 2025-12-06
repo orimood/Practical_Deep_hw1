@@ -326,7 +326,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=config.learning_rate, 
                           weight_decay=config.weight_decay)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', 
-                                                     factor=0.5, patience=5, verbose=True)
+                                                     factor=0.5, patience=5)
     
     # Watch model with wandb
     wandb.watch(model, criterion, log="all", log_freq=100)

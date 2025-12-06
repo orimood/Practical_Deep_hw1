@@ -31,105 +31,170 @@ Your abstract.
 
 \subsection*{a – Size of Data}
 
-The Humpback Whale Identification dataset contains thousands of labeled images of whale flukes.  
-According to the loaded training metadata:
+The Large-Scale Fish Dataset for segmentation and classification contains images of 9 different seafood types collected from a supermarket in Izmir, Turkey.  
+According to the dataset analysis:
 
 \begin{itemize}
-    \item \textbf{Train samples}:  \(\approx 25{,}000\) images.
-    \item \textbf{Unique whale IDs}: Over \(3{,}000\) individuals.
-    \item A special label \texttt{new\_whale} contains:
-    \[
-        9{,}664 \text{ samples}
-    \]
-    and represents whales that the model should treat as unseen.
+    \item \textbf{Total images}:  \(\approx 9{,}000\) images.
+    \item \textbf{Number of species (classes)}: 9
+    \item \textbf{Images per species}: \(\approx 1{,}000\) images each
+    \item Species include: Gilt-Head Bream, Red Sea Bream, Sea Bass, Red Mullet, Horse Mackerel, Black Sea Sprat, Striped Red Mullet, Trout, and Shrimp.
 \end{itemize}
 
-Thus, the dataset is large in total number of images, but extremely sparse per identity.
+The dataset is well-balanced across all species classes, with each class containing approximately 1,000 images after augmentation.
 
 \subsection*{b – What Each Sample Contains}
 
 Each training sample consists of:
 
 \begin{itemize}
-    \item A \textbf{color image} of a whale fluke.
-    \item Image shapes vary significantly.  
-    The most common resolutions among the sample inspected were:
-    \begin{align*}
-        1050 \times 700 \\
-        1050 \times 450 \\
-        1050 \times 600 \\
-        700 \times 500
-    \end{align*}
-    \item Most images are stored in:
+    \item A \textbf{color image} of a fish or seafood specimen.
+    \item Images were collected using two cameras: Kodak Easyshare Z650 and Samsung ST60.
+    \item The most common image resolution after preprocessing is:
+    \[
+        590 \times 445 \text{ pixels}
+    \]
+    \item All images are stored in:
     \[
         \text{RGB mode (3 channels)}
     \]
-    although a small subset is grayscale.
+    maintaining consistent color representation across the dataset.
 \end{itemize}
 
-Because of the non-uniform image sizes and channel inconsistencies, preprocessing is required.
+The dataset was augmented using flipping and rotation transformations, resulting in 1,000 RGB images and 1,000 corresponding ground truth segmentation masks per species.
 
 \subsection*{Preprocessing Suggestions}
 
-Based on the dataset analysis:
+Based on the dataset characteristics:
 
 \begin{itemize}
-    \item Convert all images to \textbf{RGB}.
-    \item Resize or center-crop all images to a uniform spatial size  
-    (e.g., \(224\times224\) or \(256\times256\)) for CNN training.
-    \item Normalize using ImageNet mean and standard deviation when using pretrained backbones.
+    \item Images are already in \textbf{RGB format} with consistent dimensions.
+    \item Resize to uniform size (e.g., \(224\times224\) or \(256\times256\)) for CNN training.
+    \item Normalize using ImageNet mean and standard deviation for transfer learning:
+    \begin{align*}
+        \text{mean} &= [0.485, 0.456, 0.406] \\
+        \text{std} &= [0.229, 0.224, 0.225]
+    \end{align*}
 \end{itemize}
 
-Additional augmentations that are valid for whale flukes include:
+Valid augmentations for fish classification:
 
 \begin{itemize}
-    \item Horizontal flipping (flukes are symmetric).
-    \item Random rotations.
-    \item Color jitter (illumination varies strongly across images).
-    \item Random zoom/crop to account for different distances from camera.
+    \item Horizontal flipping (fish can face either direction).
+    \item Random rotation (\(\pm 15^\circ\)).
+    \item Color jitter (brightness, contrast, saturation).
+    \item Random zoom/crop to simulate varying distances.
+    \item Random Gaussian blur to simulate focus variation.
+    \item \textbf{Note}: Vertical flipping is \textbf{not valid} (fish do not swim upside down).
 \end{itemize}
-
-These transformations preserve the identity-defining patterns of the whale fluke while improving generalization.
 
 \subsection*{c – Is the Data Balanced?}
 
-No — the dataset is \textbf{extremely imbalanced}.  
-The distribution of samples per whale ID is:
+Yes — the dataset is \textbf{well-balanced}.  
+The distribution of samples per species is:
 
 \begin{itemize}
-    \item \textbf{Minimum images per ID}: 1  
-    \item \textbf{Median per ID}: 2  
-    \item \textbf{Mean per ID}: 5.07  
-    \item \textbf{Maximum per ID}: 9{,}664 (the \texttt{new\_whale} class)
+    \item \textbf{Images per species}: \(\approx 1{,}000\) for each class
+    \item \textbf{Minimum}: 1{,}000 images
+    \item \textbf{Maximum}: 1{,}000 images
+    \item \textbf{Standard deviation}: Very low (\(<10\%\) of mean)
 \end{itemize}
 
-Most whales appear very few times, often only once.  
-This makes classification extremely challenging and motivates the use of:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{plots/class_distribution.png}
+    \caption{Distribution of images across all fish species. The dataset shows excellent balance with approximately 1,000 images per class.}
+    \label{fig:class_distribution}
+\end{figure}
+
+The balanced distribution simplifies model training and eliminates the need for:
 
 \begin{itemize}
-    \item Metric learning (triplet loss, arcface)
-    \item Embedding-based retrieval instead of softmax classification
-    \item Extensive augmentation
+    \item Class weighting strategies
+    \item Specialized sampling techniques
+    \item Focal loss or other imbalance-handling methods
 \end{itemize}
+
+Standard cross-entropy loss and accuracy metrics are appropriate for this dataset.
 
 \subsection*{d – Benchmark Results (Related Work)}
 
-Prior work on the Kaggle whale challenge and similar fine-grained re-identification tasks reports:
+The dataset was published by Ulucan et al.\ (2020) in the ASYU conference. The original paper compared:
 
 \begin{itemize}
-    \item Simple CNN classifiers perform poorly due to the extreme class imbalance.
-    \item Models using \textbf{metric learning} (e.g., Siamese networks, triplet loss, cosine-margin losses) achieve far stronger performance.
-    \item State-of-the-art approaches typically use:
-    \begin{itemize}
-        \item Pretrained ImageNet backbones (ResNet50, Inception, EfficientNet)
-        \item Heavy augmentation
-        \item Feature embedding + nearest-neighbor search for identity retrieval
-    \end{itemize}
+    \item \textbf{Semantic segmentation methods}: U-Net, SegNet, FCN
+    \item \textbf{Traditional methods}: Bag of Features with handcrafted features
+    \item \textbf{Deep learning}: Convolutional Neural Networks with transfer learning
 \end{itemize}
 
-Reported top solutions achieve high leaderboard accuracy by combining deep embeddings with k-NN on the test embeddings rather than pure classification.
+Expected performance for fine-grained fish classification:
 
-Overall, the dataset’s imbalance and limited per-whale examples require more sophisticated approaches than standard supervised classification.
+\begin{itemize}
+    \item Simple CNN from scratch: 70--85\% accuracy
+    \item Transfer learning (ResNet, VGG): 90--95\% accuracy
+    \item Advanced architectures (EfficientNet, Vision Transformers): 95--98\% accuracy
+\end{itemize}
+
+\textbf{Key challenges} identified:
+\begin{itemize}
+    \item Intra-class variability (lighting, angles, sizes)
+    \item Inter-class similarity (e.g., Red Mullet vs.\ Striped Red Mullet)
+    \item Background complexity in supermarket setting
+    \item Scale variation from different camera distances
+\end{itemize}
+
+The balanced classes and substantial training data make this dataset well-suited for modern deep learning approaches.
+
+\subsection*{e – Sample Visualization}
+
+Figure~\ref{fig:samples} shows representative samples from each fish species. Visual inspection reveals:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/fish_samples_grid.png}
+    \caption{Random samples from each of the 9 fish species in the dataset, showing the diversity in pose, lighting, and scale.}
+    \label{fig:samples}
+\end{figure}
+
+\textbf{Easily distinguishable species:}
+\begin{itemize}
+    \item \textbf{Black Sea Sprat}: Small, elongated body with silvery appearance
+    \item \textbf{Shrimp}: Unique curved body structure, distinct from all fish
+    \item \textbf{Trout}: Distinctive spotted pattern along the body
+    \item \textbf{Sea Bass}: Large, robust body with characteristic fin structure
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{plots/distinct_species_comparison.png}
+    \caption{Comparison of easily distinguishable species. Each row shows different samples of the same species, clearly labeled on the left.}
+    \label{fig:distinct_species}
+\end{figure}
+
+\textbf{Challenging pairs (similar appearance):}
+\begin{itemize}
+    \item \textbf{Red Mullet vs.\ Striped Red Mullet}: Very similar body shape and coloration; stripes may be subtle
+    \item \textbf{Gilt-Head Bream vs.\ Red Sea Bream}: Both have similar oval body shapes; differ mainly in coloration
+    \item \textbf{Horse Mackerel vs.\ Sea Bass}: Similar sizes and proportions; require attention to fin details
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{plots/mullet_species_comparison.png}
+    \caption{Comparison between Red Mullet (top row) and Striped Red Mullet (bottom row). Each species is clearly labeled, showing the subtle differences that make classification challenging.}
+    \label{fig:mullet_comparison}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{plots/bream_species_comparison.png}
+    \caption{Comparison between Gilt-Head Bream (top row) and Red Sea Bream (bottom row). Species labels indicate which row corresponds to which species.}
+    \label{fig:bream_comparison}
+\end{figure}
+
+These visual characteristics inform feature learning priorities: the model must learn to distinguish subtle differences in texture, pattern, and morphology while being robust to pose, lighting, and scale variations.
+
+See \texttt{plot\_fish.ipynb} for detailed exploratory data analysis with visualizations.
 
 
 

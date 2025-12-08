@@ -1,103 +1,132 @@
-# Fish Classification - Basic CNN Training
+# Fish Classification - Deep Learning Project
 
-Simple and effective fish species classification using a Basic CNN with K-Fold Cross-Validation.
+Fish species classification using deep learning with multiple approaches (baseline CNN, transfer learning, advanced augmentation, and test-time augmentation).
 
-## 📁 Project Structure
+## 📁 Project Files
 
-```
-Practical_Deep_hw1/
-├── Data/
-│   └── train/              # Fish species dataset
-│       ├── Black Sea Sprat/
-│       ├── Gilt-Head Bream/
-│       ├── Hourse Mackerel/
-│       ├── Red Mullet/
-│       ├── Red Sea Bream/
-│       ├── Sea Bass/
-│       ├── Shrimp/
-│       ├── Striped Red Mullet/
-│       ├── Trout/
-│       └── [New Category]/  # Added in Task (e)
-│
-├── results/                 # All training results and visualizations
-│   ├── task_a_baseline/     # Baseline model results
-│   ├── task_b_analysis/     # Misclassification analysis
-│   ├── task_c_improved/     # Improved model results
-│   ├── task_d_tta/          # TTA evaluation results
-│   └── task_e_new_category/ # 10-class model results
-│
-├── train_comprehensive.py        # Task (a) - Baseline training with K-fold CV
-├── analyze_misclassifications.py # Task (b) - Error analysis and suggestions
-├── train_improved.py             # Task (c) - Improved model (ResNet50 + MixUp)
-├── evaluate_tta.py               # Task (d) - Test Time Augmentation
-├── add_new_category.py           # Task (e) - Helper to add new fish species
-├── train_with_new_category.py    # Task (e) - Train with 10 classes
-└── README.md                     # This file
-```
+### Core Training & Data
 
-## 🎯 Assignment Tasks
+| File | Purpose |
+|------|---------|
+| **train_basic_cnn.py** | Main baseline training script. Trains a basic 4-layer CNN with 5-fold stratified cross-validation, caching support, and comprehensive results/visualizations. Outputs trained models, confusion matrices, and conclusions to `results/basic_cnn_results/`. |
+| **Download_data.py** | Downloads the fish dataset from Kaggle Hub and copies it to the local `Data/` directory. Run once to set up the dataset. |
 
-### Task (a): Comprehensive Training with Visualizations ✅
+### Q2c: Model Improvements (3 Approaches)
 
-**Script:** `train_comprehensive.py`
+| File | Purpose |
+|------|---------|
+| **q2c_transfer_learning.py** | ResNet50 transfer learning approach. Uses a pretrained ResNet50 backbone with frozen early layers, fine-tunes the last blocks with differential learning rates (head: 1e-3, backbone: 1e-4). Trains for 5 epochs and saves results to `results/q2c_transfer_learning/`. Expected improvement: +10-15% accuracy. |
+| **q2c_mixup_cutmix.py** | Advanced augmentation approach using MixUp and CutMix. Alternates between mixing images and mixing patches during training to reduce overfitting. Uses BasicCNN architecture, trains for 5 epochs. Saves results to `results/q2c_mixup_cutmix/`. Expected improvement: +1-3% accuracy. |
+| **q2c_attention_cnn.py** | Attention mechanism approach using Squeeze-and-Excitation (SE) blocks. Adds channel attention to the BasicCNN to help the model focus on discriminative features. Lightweight (~2% parameter overhead), trains for 5 epochs. Saves results to `results/q2c_attention_cnn/`. Expected improvement: +1-3% accuracy. |
 
-Implements baseline training with extensive visualizations and metrics:
+### Q2d: Inference Optimization
 
-**Features:**
-- 5-Fold Stratified Cross-Validation
-- Basic CNN architecture (4 conv blocks: 3→32→64→128→256 channels)
-- Training/validation loss and accuracy curves per fold
-- Confusion matrices for each fold
-- Per-class accuracy and F1 scores
-- Example visualizations:
-  - High confidence CORRECT predictions
-  - High confidence INCORRECT predictions
-  - Most UNCERTAIN predictions
-- Ensemble predictions (mean of all folds)
-- Comprehensive metrics comparison
+| File | Purpose |
+|------|---------|
+| **q2d_tta.py** | Test-Time Augmentation (TTA) evaluation. Loads the 5 trained fold models from baseline training, applies multiple augmentations per test image, and averages predictions for improved robustness. Saves metrics and comparison with baseline to `results/q2d_tta/summary.txt`. |
 
-**Usage:**
-```bash
-python train_comprehensive.py
-```
+### Utilities & Notebooks
 
-**Output:**
-- `results/task_a_baseline/fold_X/` - Per-fold results
-- Training history plots
-- Confusion matrices
-- Classification reports
-- Example prediction visualizations
+| File | Purpose |
+|------|---------|
+| **plot_fish.ipynb** | Jupyter notebook for dataset exploration and visualization. Shows dataset statistics, class distribution, sample images, and supports multi-extension image discovery with flexible folder structures. |
 
 ---
 
-### Task (b): Misclassification Analysis ✅
+## 🚀 Quick Start
 
-**Script:** `analyze_misclassifications.py`
-
-Analyzes where and why the model fails, with improvement suggestions.
-
-**Analysis Includes:**
-1. Confusion matrix pattern analysis
-2. Top 10 most confused class pairs
-3. Per-class error rates
-4. Visualizations of misclassified samples
-5. Dataset characteristics analysis (image sizes, aspect ratios, class balance)
-6. **At least 6 improvement suggestions** with reasoning and expected gains
-
-**Suggested Improvements:**
-1. **Transfer Learning** (ResNet50/EfficientNet) - Priority 1
-2. **Advanced Data Augmentation** (MixUp, CutMix) - Priority 2
-3. **Class Imbalance Handling** - Priority 3
-4. **Attention Mechanisms** (CBAM, SE-Net) - Priority 4
-5. **Multi-Scale Training** - Priority 5
-6. **Ensemble Methods** - Priority 6
-
-**Usage:**
+### 1. Setup Dataset
 ```bash
-python analyze_misclassifications.py
+python Download_data.py
 ```
 
-**Output:**
+### 2. Train Baseline Model
+```bash
+python train_basic_cnn.py              # First run (trains all 5 folds)
+python train_basic_cnn.py --retrain    # Force retrain if needed
+```
+
+### 3. Run Model Improvements (Q2c)
+```bash
+python q2c_transfer_learning.py    # Transfer learning approach
+python q2c_mixup_cutmix.py         # Advanced augmentation approach
+python q2c_attention_cnn.py        # Attention mechanism approach
+```
+
+### 4. Evaluate with Test-Time Augmentation (Q2d)
+```bash
+python q2d_tta.py
+```
+
+---
+
+## 📊 Results
+
+All results are automatically saved to the `results/` directory:
+
+- **`results/basic_cnn_results/`** - Baseline CNN (5-fold CV)
+  - `fold_1/` to `fold_5/` - Per-fold models, confusion matrices, metrics
+  - `CONCLUSIONS.txt` - Summary and analysis
+  - `test_results_summary.txt` - Ensemble test metrics
+
+- **`results/q2c_transfer_learning/`** - Transfer learning results
+- **`results/q2c_mixup_cutmix/`** - Augmentation results
+- **`results/q2c_attention_cnn/`** - Attention results
+- **`results/q2d_tta/`** - TTA evaluation metrics
+
+---
+
+## 🔧 Architecture Details
+
+### Baseline CNN (train_basic_cnn.py)
+- **Layers:** 4 convolutional blocks with batch normalization
+- **Channels:** 3 → 32 → 64 → 128 → 256
+- **Dropout:** 0.25 in conv layers, 0.5 in dense layers
+- **Parameters:** ~51 million
+- **Training:** Adam optimizer (lr=0.001), ReduceLROnPlateau scheduler, 5 epochs per fold
+
+### ResNet50 Transfer Learning (q2c_transfer_learning.py)
+- **Backbone:** Pretrained ImageNet weights
+- **Fine-tuning:** Last 2 blocks + classifier
+- **Learning rates:** Head 1e-3, Backbone 1e-4 (differential)
+- **Expected gain:** +10-15% accuracy
+
+### Advanced Augmentation (q2c_mixup_cutmix.py)
+- **MixUp:** α=0.4 (probabilistic image blending)
+- **CutMix:** α=0.4 (probabilistic region mixing)
+- **Expected gain:** +1-3% accuracy
+
+### SE-Block Attention (q2c_attention_cnn.py)
+- **Channel attention:** Adaptive pooling + FC layers
+- **Reduction ratio:** 16
+- **Parameter overhead:** ~2%
+- **Expected gain:** +1-3% accuracy
+
+---
+
+## 📈 Dataset
+
+- **Source:** Kaggle - A Large Scale Fish Dataset
+- **Classes:** 10 fish species (including newly added Gold Fish)
+- **Total images:** ~9,206
+- **Train/Test split:** ~80/20 with stratification
+- **Image formats:** PNG, JPG, JPEG, BMP, WebP
+- **Folder structure:** Supports nested (`Class/Class/`) or single-level (`Class/`) layouts
+
+---
+
+## 📝 Notes
+
+- **Caching:** Baseline training caches fold results to avoid retraining. Delete `results/basic_cnn_results/` to force retraining.
+- **GPU:** Automatically uses CUDA if available (RTX 3060 tested)
+- **Reproducibility:** All scripts set random seeds for reproducible results
+- **Encoding:** All file operations use UTF-8 encoding
+
+---
+
+## 📋 Assignment Tasks
+
+### Task (a): Comprehensive Training with Visualizations ✅
 - `results/task_b_analysis/`
 - Confusion analysis report
 - Misclassified sample visualizations

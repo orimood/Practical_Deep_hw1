@@ -1,6 +1,6 @@
 """
-Basic CNN for Fish Species Classification
-Training script with Weights & Biases tracking
+Basic CNN for Fish Species Classification - Version 3
+Using physically separated train/val/test directories to prevent data leakage
 """
 
 import os
@@ -12,7 +12,6 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from PIL import Image
-from sklearn.model_selection import train_test_split
 import wandb
 from tqdm import tqdm
 
@@ -28,12 +27,45 @@ print(f"Using device: {device}")
 
 
 class FishDataset(Dataset):
-    """Dataset class for fish images"""
+    """Dataset class for fish images - loads from split directories"""
     
-    def __init__(self, image_paths, labels, transform=None):
-        self.image_paths = image_paths
-        self.labels = labels
+    def __init__(self, data_dir, transform=None):
+        """
+        Args:
+            data_dir: Path to directory containing species subdirectories
+            transform: Image transforms to apply
+        """
+        self.data_dir = Path(data_dir)
         self.transform = transform
+        self.image_paths = []
+        self.labels = []
+        
+        # Fish species (class names)
+        self.class_names = sorted([
+            "Black Sea Sprat",
+            "Gilt-Head Bream",
+            "Hourse Mackerel",
+            "Red Mullet",
+            "Red Sea Bream",
+            "Sea Bass",
+            "Shrimp",
+            "Striped Red Mullet",
+            "Trout"
+        ])
+        
+        # Create class to index mapping
+        self.class_to_idx = {cls_name: idx for idx, cls_name in enumerate(self.class_names)}
+        
+        # Load all images
+        for class_name in self.class_names:
+            class_dir = self.data_dir / class_name
+            if not class_dir.exists():
+                print(f"Warning: {class_dir} not found")
+                continue
+            
+            images = list(class_dir.glob("*.png"))
+            self.image_paths.extend(images)
+            self.labels.extend([self.class_to_idx[class_name]] * len(images))
     
     def __len__(self):
         return len(self.image_paths)
@@ -50,9 +82,9 @@ class FishDataset(Dataset):
 
 
 class BasicCNN(nn.Module):
-    """Basic CNN architecture for fish classification"""
+    """Basic CNN architecture with regularization"""
     
-    def __init__(self, num_classes=9):
+    def __init__(self, num_classes=9, dropout_rate=0.3):
         super(BasicCNN, self).__init__()
         
         # Convolutional layers
@@ -64,8 +96,8 @@ class BasicCNN(nn.Module):
             nn.Conv2d(32, 32, kernel_size=3, padding=1),
             nn.BatchNorm2d(32),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(2, 2),  # 112x112
-            nn.Dropout2d(0.25),
+            nn.MaxPool2d(2, 2),
+            nn.Dropout2d(dropout_rate),
             
             # Block 2
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
@@ -74,8 +106,8 @@ class BasicCNN(nn.Module):
             nn.Conv2d(64, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(2, 2),  # 56x56
-            nn.Dropout2d(0.25),
+            nn.MaxPool2d(2, 2),
+            nn.Dropout2d(dropout_rate),
             
             # Block 3
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
@@ -84,8 +116,8 @@ class BasicCNN(nn.Module):
             nn.Conv2d(128, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(2, 2),  # 28x28
-            nn.Dropout2d(0.25),
+            nn.MaxPool2d(2, 2),
+            nn.Dropout2d(dropout_rate),
             
             # Block 4
             nn.Conv2d(128, 256, kernel_size=3, padding=1),
@@ -94,8 +126,8 @@ class BasicCNN(nn.Module):
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(2, 2),  # 14x14
-            nn.Dropout2d(0.25),
+            nn.MaxPool2d(2, 2),
+            nn.Dropout2d(dropout_rate),
         )
         
         # Fully connected layers
@@ -118,58 +150,29 @@ class BasicCNN(nn.Module):
         return x
 
 
-def load_data(data_root, test_size=0.2, val_size=0.1):
-    """Load and split the fish dataset"""
+class EarlyStopping:
+    """Early stopping to stop training when validation loss doesn't improve"""
     
-    fish_species = [
-        "Black Sea Sprat",
-        "Gilt-Head Bream",
-        "Hourse Mackerel",
-        "Red Mullet",
-        "Red Sea Bream",
-        "Sea Bass",
-        "Shrimp",
-        "Striped Red Mullet",
-        "Trout"
-    ]
-    
-    image_paths = []
-    labels = []
-    
-    # Collect all image paths and labels
-    for label_idx, species in enumerate(fish_species):
-        species_path = data_root / species / species
-        if not species_path.exists():
-            print(f"Warning: Path not found for {species}")
-            continue
+    def __init__(self, patience=7, min_delta=0.001, mode='min'):
+        self.patience = patience
+        self.min_delta = min_delta
+        self.mode = mode
+        self.counter = 0
+        self.best_score = None
+        self.early_stop = False
         
-        images = list(species_path.glob("*.png"))
-        image_paths.extend(images)
-        labels.extend([label_idx] * len(images))
-    
-    print(f"\nTotal images loaded: {len(image_paths)}")
-    print(f"Number of classes: {len(fish_species)}")
-    
-    # Convert to arrays
-    image_paths = np.array(image_paths)
-    labels = np.array(labels)
-    
-    # Split into train+val and test
-    X_trainval, X_test, y_trainval, y_test = train_test_split(
-        image_paths, labels, test_size=test_size, random_state=42, stratify=labels
-    )
-    
-    # Split train+val into train and val
-    val_ratio = val_size / (1 - test_size)
-    X_train, X_val, y_train, y_val = train_test_split(
-        X_trainval, y_trainval, test_size=val_ratio, random_state=42, stratify=y_trainval
-    )
-    
-    print(f"Training samples: {len(X_train)}")
-    print(f"Validation samples: {len(X_val)}")
-    print(f"Test samples: {len(X_test)}")
-    
-    return (X_train, y_train), (X_val, y_val), (X_test, y_test), fish_species
+    def __call__(self, val_metric):
+        score = -val_metric if self.mode == 'min' else val_metric
+        
+        if self.best_score is None:
+            self.best_score = score
+        elif score < self.best_score + self.min_delta:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.early_stop = True
+        else:
+            self.best_score = score
+            self.counter = 0
 
 
 def get_transforms(augment=True):
@@ -266,12 +269,15 @@ def main():
     config = {
         'batch_size': 32,
         'learning_rate': 0.001,
-        'epochs': 50,
-        'weight_decay': 1e-4,
+        'epochs': 30,
+        'weight_decay': 1e-3,
+        'dropout_rate': 0.3,
         'augmentation': True,
         'optimizer': 'Adam',
         'architecture': 'BasicCNN',
         'image_size': 224,
+        'early_stopping_patience': 10,
+        'data_split': 'physical_separation'
     }
     
     # Initialize Weights & Biases
@@ -279,27 +285,44 @@ def main():
         project="fish-classification-hw1",
         entity="orisin-ben-gurion-university-of-the-negev",
         config=config,
-        name="basic-cnn-baseline"
+        name="basic-cnn-no-leakage"
     )
     config = wandb.config
     
-    # Data paths
+    # Data paths - using physically separated directories
     project_root = Path(r"D:\Projects\Practical_Deep_hw1")
-    data_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    data_root = project_root / "Data" / "split_fish_dataset"
     
-    # Load data
-    print("\n" + "="*60)
-    print("LOADING DATA")
-    print("="*60)
-    (X_train, y_train), (X_val, y_val), (X_test, y_test), class_names = load_data(data_root)
+    train_dir = data_root / "train"
+    val_dir = data_root / "val"
+    test_dir = data_root / "test"
+    
+    # Verify directories exist
+    for dir_path, name in [(train_dir, "Train"), (val_dir, "Val"), (test_dir, "Test")]:
+        if not dir_path.exists():
+            raise FileNotFoundError(f"{name} directory not found: {dir_path}")
     
     # Get transforms
     train_transform, val_transform = get_transforms(augment=config.augmentation)
     
-    # Create datasets
-    train_dataset = FishDataset(X_train, y_train, transform=train_transform)
-    val_dataset = FishDataset(X_val, y_val, transform=val_transform)
-    test_dataset = FishDataset(X_test, y_test, transform=val_transform)
+    # Create datasets from separate directories
+    print("\n" + "="*60)
+    print("LOADING DATA FROM PHYSICALLY SEPARATED DIRECTORIES")
+    print("="*60)
+    print(f"Train: {train_dir}")
+    print(f"Val:   {val_dir}")
+    print(f"Test:  {test_dir}")
+    
+    train_dataset = FishDataset(train_dir, transform=train_transform)
+    val_dataset = FishDataset(val_dir, transform=val_transform)
+    test_dataset = FishDataset(test_dir, transform=val_transform)
+    
+    print(f"\nDataset sizes:")
+    print(f"  Training:   {len(train_dataset):5d} images")
+    print(f"  Validation: {len(val_dataset):5d} images")
+    print(f"  Test:       {len(test_dataset):5d} images")
+    print(f"  Total:      {len(train_dataset) + len(val_dataset) + len(test_dataset):5d} images")
+    print(f"  Classes:    {len(train_dataset.class_names)}")
     
     # Create dataloaders
     train_loader = DataLoader(train_dataset, batch_size=config.batch_size, 
@@ -313,7 +336,8 @@ def main():
     print("\n" + "="*60)
     print("INITIALIZING MODEL")
     print("="*60)
-    model = BasicCNN(num_classes=len(class_names)).to(device)
+    model = BasicCNN(num_classes=len(train_dataset.class_names), 
+                    dropout_rate=config.dropout_rate).to(device)
     
     # Count parameters
     total_params = sum(p.numel() for p in model.parameters())
@@ -328,12 +352,15 @@ def main():
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', 
                                                      factor=0.5, patience=5)
     
+    # Early stopping
+    early_stopping = EarlyStopping(patience=config.early_stopping_patience, mode='min')
+    
     # Watch model with wandb
     wandb.watch(model, criterion, log="all", log_freq=100)
     
     # Training loop
     print("\n" + "="*60)
-    print("TRAINING")
+    print("TRAINING (No Data Leakage - Physical Separation)")
     print("="*60)
     
     best_val_acc = 0.0
@@ -354,6 +381,9 @@ def main():
         scheduler.step(val_loss)
         current_lr = optimizer.param_groups[0]['lr']
         
+        # Check early stopping
+        early_stopping(val_loss)
+        
         # Log to wandb
         wandb.log({
             'epoch': epoch + 1,
@@ -361,11 +391,13 @@ def main():
             'train_acc': train_acc,
             'val_loss': val_loss,
             'val_acc': val_acc,
-            'learning_rate': current_lr
+            'learning_rate': current_lr,
+            'train_val_gap': train_acc - val_acc
         })
         
         print(f"\nTrain Loss: {train_loss:.4f} | Train Acc: {train_acc:.2f}%")
         print(f"Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.2f}%")
+        print(f"Train-Val Gap: {train_acc - val_acc:+.2f}%")
         print(f"Learning Rate: {current_lr:.6f}")
         
         # Save best model
@@ -376,16 +408,21 @@ def main():
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'val_acc': val_acc,
-                'class_names': class_names
+                'train_acc': train_acc,
+                'class_names': train_dataset.class_names
             }, best_model_path)
             print(f"✓ Saved best model (Val Acc: {val_acc:.2f}%)")
-            
-            # Save to wandb
             wandb.save(str(best_model_path))
+        
+        # Early stopping check
+        if early_stopping.early_stop:
+            print(f"\n⚠ Early stopping triggered at epoch {epoch+1}")
+            print(f"No improvement in validation loss for {early_stopping.patience} epochs")
+            break
     
     # Test evaluation
     print("\n" + "="*60)
-    print("FINAL TEST EVALUATION")
+    print("FINAL TEST EVALUATION (Completely Separate Test Set)")
     print("="*60)
     
     # Load best model
@@ -395,10 +432,13 @@ def main():
     test_loss, test_acc = validate(model, test_loader, criterion, device)
     print(f"\nTest Loss: {test_loss:.4f}")
     print(f"Test Accuracy: {test_acc:.2f}%")
+    print(f"Best Val Accuracy: {best_val_acc:.2f}%")
+    print(f"Generalization Gap (Val-Test): {best_val_acc - test_acc:+.2f}%")
     
     wandb.log({
         'test_loss': test_loss,
-        'test_acc': test_acc
+        'test_acc': test_acc,
+        'val_test_gap': best_val_acc - test_acc
     })
     
     print("\n" + "="*60)
@@ -407,6 +447,8 @@ def main():
     print(f"Best Validation Accuracy: {best_val_acc:.2f}%")
     print(f"Test Accuracy: {test_acc:.2f}%")
     print(f"Model saved to: {best_model_path}")
+    print("\n✓ No data leakage - train/val/test physically separated!")
+    print("="*60)
     
     wandb.finish()
 

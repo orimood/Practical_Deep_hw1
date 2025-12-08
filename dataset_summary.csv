@@ -1,11 +1,11 @@
 Metric,Value
-Total Images,"9,000"
-Number of Classes,9
-Images per Class (Min),1000
+Total Images,"9,206"
+Number of Classes,10
+Images per Class (Min),206
 Images per Class (Max),1000
-Images per Class (Mean),1000.0
+Images per Class (Mean),920.6
 Images per Class (Median),1000.0
 Most Common Image Size,590 × 445
 Color Mode,RGB (3 channels)
 Aspect Ratio (Mean),1.326
-Class Balance,Balanced
+Class Balance,Slight imbalance

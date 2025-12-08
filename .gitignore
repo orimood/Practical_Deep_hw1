@@ -1,3 +1,7 @@
 Data/
 plots/
 wandb/
+
+# Exclude trained model files (too large for GitHub)
+*.pth
+results/

@@ -182,14 +182,15 @@ def main():
     config = {
         'model_name': 'ResNet-50',
         'batch_size': 32,
-        'learning_rate': 0.001,
-        'epochs': 30,
-        'weight_decay': 1e-4,
+        'learning_rate': 0.0005,  # Lower LR
+        'epochs': 6,
+        'weight_decay': 5e-4,  # Stronger weight decay
         'optimizer': 'Adam',
         'pretrained': True,
         'fine_tune_all': False,  # Start with frozen backbone
         'unfreeze_epoch': 10,  # Unfreeze after this epoch
         'image_size': 224,
+        'label_smoothing': 0.1,  # Add label smoothing
     }
     
     # Initialize Weights & Biases
@@ -257,8 +258,8 @@ def main():
     print(f"Trainable parameters: {trainable_params:,}")
     print(f"Frozen parameters: {total_params - trainable_params:,}")
     
-    # Loss and optimizer
-    criterion = nn.CrossEntropyLoss()
+    # Loss and optimizer with label smoothing for regularization
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), 
                           lr=config.learning_rate, weight_decay=config.weight_decay)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', 

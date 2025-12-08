@@ -207,9 +207,9 @@ def main():
     config = {
         'model_name': 'ViT-B/16',
         'batch_size': 16,  # Reduced for memory
-        'learning_rate': 0.0001,  # Lower LR for transformers
-        'epochs': 25,  # Slightly fewer epochs
-        'weight_decay': 1e-4,
+        'learning_rate': 0.00005,  # Lower LR for transformers
+        'epochs': 6,  # Fewer epochs
+        'weight_decay': 3e-4,  # Stronger weight decay
         'optimizer': 'AdamW',
         'pretrained': True,
         'fine_tune_all': False,
@@ -217,6 +217,7 @@ def main():
         'image_size': 224,
         'use_amp': True,  # Mixed precision for memory savings
         'gradient_accumulation_steps': 2,  # Simulate larger batch
+        'label_smoothing': 0.1,
     }
     
     # Initialize Weights & Biases
@@ -291,8 +292,8 @@ def main():
     print(f"  - Mixed precision (FP16): {config.use_amp}")
     print(f"  - Gradient accumulation: {config.gradient_accumulation_steps} steps")
     
-    # Loss and optimizer
-    criterion = nn.CrossEntropyLoss()
+    # Loss and optimizer with label smoothing for regularization
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), 
                            lr=config.learning_rate, weight_decay=config.weight_decay)
     

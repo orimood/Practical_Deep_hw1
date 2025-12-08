@@ -1,5 +1,3 @@
 Data/
 plots/
 wandb/
-models/*.pth
-*.pth

@@ -21,6 +21,9 @@ from PIL import Image
 import wandb
 from tqdm import tqdm
 import json
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Set random seeds for reproducibility
 torch.manual_seed(42)
@@ -375,6 +378,39 @@ def main():
         'total_params': total_params,
     })
     
+    # Generate confusion matrix
+    all_preds = []
+    all_labels = []
+    model.eval()
+    with torch.no_grad():
+        for images, labels, _ in test_loader:
+            images = images.to(device)
+            outputs = model(images)
+            _, predicted = torch.max(outputs, 1)
+            all_preds.extend(predicted.cpu().numpy())
+            all_labels.extend(labels.numpy())
+    
+    cm = confusion_matrix(all_labels, all_preds)
+    
+    # Plot confusion matrix
+    plt.figure(figsize=(12, 10))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=train_dataset.class_names,
+                yticklabels=train_dataset.class_names)
+    plt.title('ResNet-50 Confusion Matrix')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    plt.xticks(rotation=45, ha='right')
+    plt.yticks(rotation=0)
+    plt.tight_layout()
+    
+    # Save confusion matrix
+    cm_path = project_root / "prt_3" / "plots" / "resnet50_confusion_matrix.png"
+    cm_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(cm_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"✓ Confusion matrix saved to {cm_path}")
+    
     # Save detailed results
     results = {
         'model_name': 'ResNet-50',
@@ -386,7 +422,8 @@ def main():
         'unique_correct_samples': num_unique_correct,
         'unique_errors': num_unique_errors,
         'class_names': train_dataset.class_names,
-        'error_samples': test_errors[:100]  # Save first 100 errors for analysis
+        'error_samples': test_errors[:100],  # Save first 100 errors for analysis
+        'confusion_matrix': cm.tolist()
     }
     
     results_path = project_root / "models" / "resnet50_results.json"

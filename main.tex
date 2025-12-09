@@ -1,20 +1,19 @@
 \documentclass{article}
 
 % Language setting
-% Replace `english' with e.g. `spanish' to change the document language
 \usepackage[english]{babel}
 
-% Set page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
+% Page size and margins
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{multirow}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \title{Assignment 1 – Practical Deep Learning Workshop}
-\author{Ori Sinvani - 325770824
+\author{Ori Sinvani - 325770824\\
 Harel Brener - 214179012}
 
 \begin{document}
@@ -100,9 +99,9 @@ The distribution of samples per species is:
     \item \textbf{Standard deviation}: Very low (\(<10\%\) of mean)
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    [FIGURE PLACEHOLDER: Class distribution plot]
+    \textit{[FIGURE PLACEHOLDER: Class distribution plot]}
     \caption{Distribution of images across all fish species. The dataset shows excellent balance with approximately 1,000 images per class.}
     \label{fig:class_distribution}
 \end{figure}
@@ -149,9 +148,9 @@ The balanced classes and substantial training data make this dataset well-suited
 
 Figure~\ref{fig:samples} shows representative samples from each fish species. Visual inspection reveals:
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    [FIGURE PLACEHOLDER: Fish samples grid - 9 species]
+    \textit{[FIGURE PLACEHOLDER: Fish samples grid - 9 species]}
     \caption{Random samples from each of the 9 fish species in the dataset, showing the diversity in pose, lighting, and scale.}
     \label{fig:samples}
 \end{figure}
@@ -164,9 +163,9 @@ Figure~\ref{fig:samples} shows representative samples from each fish species. Vi
     \item \textbf{Sea Bass}: Large, robust body with characteristic fin structure
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    [FIGURE PLACEHOLDER: Distinct species comparison]
+    \textit{[FIGURE PLACEHOLDER: Distinct species comparison]}
     \caption{Comparison of easily distinguishable species. Each row shows different samples of the same species, clearly labeled on the left.}
     \label{fig:distinct_species}
 \end{figure}
@@ -178,16 +177,16 @@ Figure~\ref{fig:samples} shows representative samples from each fish species. Vi
     \item \textbf{Horse Mackerel vs.\ Sea Bass}: Similar sizes and proportions; require attention to fin details
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    [FIGURE PLACEHOLDER: Red Mullet vs Striped Red Mullet comparison]
+    \textit{[FIGURE PLACEHOLDER: Red Mullet vs Striped Red Mullet comparison]}
     \caption{Comparison between Red Mullet (top row) and Striped Red Mullet (bottom row). Each species is clearly labeled, showing the subtle differences that make classification challenging.}
     \label{fig:mullet_comparison}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    [FIGURE PLACEHOLDER: Gilt-Head Bream vs Red Sea Bream comparison]
+    \textit{[FIGURE PLACEHOLDER: Gilt-Head Bream vs Red Sea Bream comparison]}
     \caption{Comparison between Gilt-Head Bream (top row) and Red Sea Bream (bottom row). Species labels indicate which row corresponds to which species.}
     \label{fig:bream_comparison}
 \end{figure}
@@ -207,7 +206,7 @@ We evaluated 4 pretrained architectures from \texttt{torchvision.models}, fine-t
     \item Input size: $224 \times 224$ RGB images
     \item Preprocessing: ImageNet normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     \item Data augmentation: Random horizontal flip, rotation ($\pm 15^\circ$), color jitter
-    \item Two-stage training: Frozen backbone (epochs 1-8) $\rightarrow$ Full fine-tuning (epochs 9+)
+    \item Two-stage training: Frozen backbone (epochs 1--8) $\rightarrow$ Full fine-tuning (epochs 9+)
     \item Loss: CrossEntropyLoss with label smoothing (0.1)
     \item Optimizer: Adam/AdamW with cosine/plateau learning rate scheduling
     \item Early stopping: Patience of 10 epochs on validation loss
@@ -277,12 +276,12 @@ ViT-B/16 & 85.8M & 0.6751 & 98.56\% & 0.6721 & 98.17\% & 1767 & 33 \\
     \item \textbf{Robust architecture}: 23.5M parameters provide excellent capacity
 \end{itemize}
 
-\textbf{This demonstrates that deeper architectures with residual connections excel at fish classification through:
+This demonstrates that deeper architectures with residual connections excel at fish classification through:
 \begin{enumerate}
     \item Deep residual connections enabling gradient flow
     \item Batch normalization for stable training
     \item Skip connections preventing degradation
-    \item Efficient architecture search optimization
+    \item Efficient architecture design
 \end{enumerate}
 
 \subsubsection{2. Model Size vs. Performance}
@@ -333,8 +332,8 @@ We analyzed the misclassifications to understand model weaknesses:
 All models showed similar convergence patterns:
 
 \begin{itemize}
-    \item \textbf{Epoch 1}: Rapid improvement using pretrained features (77-92\% $\rightarrow$ 91-100\% val acc)
-    \item \textbf{Epochs 2-6}: Gradual fine-tuning and stabilization
+    \item \textbf{Epoch 1}: Rapid improvement using pretrained features (77--92\% $\rightarrow$ 91--100\% val acc)
+    \item \textbf{Epochs 2--6}: Gradual fine-tuning and stabilization
     \item \textbf{Label smoothing} prevented overconfidence and overfitting
     \item No significant train-validation gap (good generalization)
 \end{itemize}
@@ -387,7 +386,7 @@ As required by the assignment, we selected the best-performing ResNet-50 model f
 
 \textbf{Classical ML Algorithms Trained on Extracted Features:}
 \begin{enumerate}
-    \item \textbf{Support Vector Machine (RBF kernel)}: $C=10$, $\gamma=$`scale'
+    \item \textbf{Support Vector Machine (RBF kernel)}: $C=10$, $\gamma=\text{scale}$
     \item \textbf{Support Vector Machine (Linear kernel)}: $C=1.0$
     \item \textbf{Random Forest}: 100 trees, max depth unrestricted
 \end{enumerate}
@@ -429,7 +428,7 @@ Remarkably, classical ML algorithms on fixed ResNet-50 features achieved \textbf
 This suggests that:
 \begin{enumerate}
     \item \textbf{ImageNet features are highly transferable}: The 2048-dimensional representations learned by ResNet-50 on ImageNet are nearly optimal for fish classification
-    \item \textbf{Fine-tuning may be unnecessary}: For this dataset size ($\approx$9,000 images per class), the pretrained features alone are sufficient
+    \item \textbf{Fine-tuning may be unnecessary}: For this dataset size ($\approx$9,000 images), the pretrained features alone are sufficient
     \item \textbf{Classical ML is more reliable}: SVMs with properly chosen kernels can find better decision boundaries than gradient-based fine-tuning
     \item \textbf{Overfitting in fine-tuning}: Fine-tuning on limited data may have led to slight overfitting, while frozen features + SVM generalize better
 \end{enumerate}
@@ -439,9 +438,9 @@ This suggests that:
 Feature extraction is significantly faster than end-to-end fine-tuning:
 
 \begin{itemize}
-    \item \textbf{SVM (Linear)}: 1.28 seconds training time — 2000$\times$ faster than fine-tuning
-    \item \textbf{SVM (RBF)}: 2.70 seconds — Still 1000$\times$ faster
-    \item \textbf{Random Forest}: 2.34 seconds — Efficient tree-based learning
+    \item \textbf{SVM (Linear)}: 1.28 seconds training time — orders of magnitude faster than fine-tuning
+    \item \textbf{SVM (RBF)}: 2.70 seconds — still extremely fast
+    \item \textbf{Random Forest}: 2.34 seconds — efficient tree-based learning
     \item \textbf{One-time cost}: Features extracted once from all images ($\approx$5 minutes on CPU); classifiers train in seconds
 \end{itemize}
 

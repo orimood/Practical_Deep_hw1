@@ -290,8 +290,8 @@ def main():
     config = wandb.config
     
     # Data paths - using physically separated directories
-    project_root = Path(r"D:\Projects\Practical_Deep_hw1")
-    data_root = project_root / "Data" / "split_fish_dataset"
+    project_root = Path.cwd() if Path.cwd().name == "Practical_Deep_hw1" else Path.cwd().parent
+    data_root = project_root / "data" / "fish_split"
     
     train_dir = data_root / "train"
     val_dir = data_root / "val"

@@ -22,7 +22,7 @@ import torch.nn.functional as F
 from PIL import Image
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix
 
-from train_basic_cnn import BasicCNN, load_data, get_transforms
+from train_basic_cnn import BasicCNN, FishDataset, get_transforms
 
 
 def load_baseline_metrics(summary_path: Path):
@@ -110,15 +110,19 @@ def load_fold_models(folds_dir: Path, num_classes: int, device):
 
 
 def main():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    project_root = Path(__file__).parent
-    data_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    project_root = Path(__file__).parent.parent
+    data_root = project_root / "data" / "fish_split"
     folds_dir = project_root / "results" / "basic_cnn_results"
     output_dir = project_root / "results" / "q2d_tta"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Data
-    X_train, y_train, X_test, y_test, class_names = load_data(data_root, test_size=0.2)
+    # Data - load from test directory
+    _, val_tfm = get_transforms(augment=False)
+    test_ds = FishDataset(data_root / "test", transform=val_tfm)
+    X_test = [str(p) for p in test_ds.image_paths]
+    y_test = test_ds.labels
+    class_names = test_ds.class_names
 
     # Models
     models = load_fold_models(folds_dir, num_classes=len(class_names), device=device)

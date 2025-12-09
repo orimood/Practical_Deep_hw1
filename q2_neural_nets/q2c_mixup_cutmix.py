@@ -20,7 +20,6 @@ from torch.utils.data import DataLoader
 from train_basic_cnn import (
     FishDataset,
     get_transforms,
-    load_data,
     BasicCNN,
     evaluate,
 )
@@ -93,21 +92,20 @@ def train_with_mixups(model, loader, criterion, optimizer, device, alpha_mixup=0
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    project_root = Path(__file__).parent
-    data_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    project_root = Path(__file__).parent.parent
+    data_root = project_root / "data" / "fish_split"
 
-    # Data
-    X_train, y_train, X_test, y_test, class_names = load_data(data_root, test_size=0.2)
+    # Data - load from split directories
     output_dir = project_root / "results" / "q2c_mixup_cutmix"
     output_dir.mkdir(parents=True, exist_ok=True)
     train_tfm, val_tfm = get_transforms(augment=True)
-    train_ds = FishDataset(X_train, y_train, transform=train_tfm)
-    val_ds = FishDataset(X_test, y_test, transform=val_tfm)  # quick hold-out for demo
+    train_ds = FishDataset(data_root / "train", transform=train_tfm)
+    val_ds = FishDataset(data_root / "val", transform=val_tfm)
     train_loader = DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4, pin_memory=True)
     val_loader = DataLoader(val_ds, batch_size=32, shuffle=False, num_workers=4, pin_memory=True)
 
     # Model
-    model = BasicCNN(num_classes=len(class_names)).to(device)
+    model = BasicCNN(num_classes=len(train_ds.class_names)).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 

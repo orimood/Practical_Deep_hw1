@@ -1,0 +1,155 @@
+Using device: cpu
+Loading datasets...
+Train samples: 6300
+Val samples:   900
+Test samples:  1800
+
+Loading feature extractor...
+
+Extracting features...
+Extracting features from training set...
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracted 6300 samples with 2048 features
+Extracting features from validation set...
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracted 900 samples with 2048 features
+Extracting features from test set...
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracted 1800 samples with 2048 features
+
+Feature extraction complete!
+Feature dimension: 2048
+
+============================================================
+Training Support Vector Machine (SVM)...
+
+============================================================
+Training SVM (RBF)...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for SVM (RBF):
+Training Time: 2.70 seconds
+
+Validation Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Results:
+  Unique Correct: 1800
+  Unique Errors:  0
+
+============================================================
+Training Random Forest...
+
+============================================================
+Training Random Forest...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for Random Forest:
+Training Time: 2.34 seconds
+
+Validation Metrics:
+  Accuracy:  0.9922
+  Precision: 0.9924
+  Recall:    0.9922
+  F1-Score:  0.9922
+
+Test Metrics:
+  Accuracy:  0.9950
+  Precision: 0.9950
+  Recall:    0.9950
+  F1-Score:  0.9950
+
+Test Results:
+  Unique Correct: 1791
+  Unique Errors:  9
+
+============================================================
+Training Linear SVM...
+
+============================================================
+Training SVM (Linear)...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for SVM (Linear):
+Training Time: 1.28 seconds
+
+Validation Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Results:
+  Unique Correct: 1800
+  Unique Errors:  0
+
+====================================================================================================
+COMPARISON SUMMARY: Feature Extraction vs Transfer Learning
+====================================================================================================
+
+            Method                         Model Runtime (s) Test Accuracy Test Precision Test Recall Test F1 Unique Correct  Unique Errors
+Feature Extraction                     SVM (RBF)        2.70        1.0000         1.0000      1.0000  1.0000           1800              0
+Feature Extraction                 Random Forest        2.34        0.9950         0.9950      0.9950  0.9950           1791              9
+Feature Extraction                  SVM (Linear)        1.28        1.0000         1.0000      1.0000  1.0000           1800              0
+ Transfer Learning ResNet-50 (Transfer Learning)         N/A        0.0000         0.0000      0.0000  0.0000            N/A             20
+
+
+Plotting confusion matrices...
+Saved confusion matrix plot to models/svm_(rbf)_confusion_matrices.png
+Saved confusion matrix plot to models/random_forest_confusion_matrices.png
+Saved confusion matrix plot to models/svm_(linear)_confusion_matrices.png
+
+Saving results...
+
+Results saved to models/feature_extraction_results.json
+Comparison table saved to models/feature_extraction_comparison.csv
+
+====================================================================================================
+FEATURE EXTRACTION EXPERIMENT COMPLETE
+====================================================================================================
+
+Key Findings:
+  Best Feature Extraction Model: SVM (RBF)
+  Test Accuracy: 1.0000
+
+Parameter Settings:
+  Feature Extractor: ResNet-50 (pretrained on ImageNet)
+  Feature Dimension: 2048
+  Training Set Size: 6300
+  Number of Classes: 9
+
+Processing Changes:
+  - Removed last FC layer from ResNet-50
+  - Extracted 2048-dimensional features
+  - Applied classical ML algorithms on fixed features
+  - No fine-tuning (features remain fixed from ImageNet pretraining)

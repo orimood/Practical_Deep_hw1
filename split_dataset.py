@@ -162,15 +162,24 @@ def split_dataset(
 
 
 def main():
-    # Paths
-    project_root = Path(r"D:\Projects\Practical_Deep_hw1")
-    source_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
-    output_root = project_root / "Data" / "split_fish_dataset"
+    # Paths - Updated for Mac/current environment
+    project_root = Path.cwd()
+    source_root = project_root / "data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    output_root = project_root / "data" / "fish_split"
     
-    # Check if source exists
+    # If source doesn't exist, try alternative paths
     if not source_root.exists():
-        print(f"Error: Source directory not found: {source_root}")
-        return
+        alt_source = Path.home() / ".cache" / "kagglehub" / "datasets" / "crowww" / "a-large-scale-fish-dataset"
+        if alt_source.exists():
+            source_root = alt_source
+        else:
+            print(f"Error: Source directory not found")
+            print(f"Checked: {source_root}")
+            print(f"Also checked: {alt_source}")
+            print("\nPlease ensure the Fish_Dataset is downloaded and available.")
+            return
+    
+    print(f"Using source: {source_root}")
     
     # Check if output already exists
     if output_root.exists():
@@ -359,15 +368,24 @@ def split_dataset(
 
 
 def main():
-    # Paths
-    project_root = Path(r"D:\Projects\Practical_Deep_hw1")
-    source_root = project_root / "Data" / "2" / "Fish_Dataset" / "Fish_Dataset"
-    output_root = project_root / "Data" / "split_fish_dataset"
+    # Paths - Updated for Mac/current environment
+    project_root = Path.cwd()
+    source_root = project_root / "data" / "2" / "Fish_Dataset" / "Fish_Dataset"
+    output_root = project_root / "data" / "fish_split"
     
-    # Check if source exists
+    # If source doesn't exist, try alternative paths
     if not source_root.exists():
-        print(f"Error: Source directory not found: {source_root}")
-        return
+        alt_source = Path.home() / ".cache" / "kagglehub" / "datasets" / "crowww" / "a-large-scale-fish-dataset"
+        if alt_source.exists():
+            source_root = alt_source
+        else:
+            print(f"Error: Source directory not found")
+            print(f"Checked: {source_root}")
+            print(f"Also checked: {alt_source}")
+            print("\nPlease ensure the Fish_Dataset is downloaded and available.")
+            return
+    
+    print(f"Using source: {source_root}")
     
     # Check if output already exists
     if output_root.exists():

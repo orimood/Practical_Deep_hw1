@@ -1,0 +1,5 @@
+Method,Model,Runtime (s),Test Accuracy,Test Precision,Test Recall,Test F1,Unique Correct,Unique Errors
+Feature Extraction,SVM (RBF),2.70,1.0000,1.0000,1.0000,1.0000,1800,0
+Feature Extraction,Random Forest,2.34,0.9950,0.9950,0.9950,0.9950,1791,9
+Feature Extraction,SVM (Linear),1.28,1.0000,1.0000,1.0000,1.0000,1800,0
+Transfer Learning,ResNet-50 (Transfer Learning),N/A,0.0000,0.0000,0.0000,0.0000,N/A,20

@@ -1,0 +1,102 @@
+{
+  "feature_extraction_results": [
+    {
+      "model": "SVM (RBF)",
+      "training_time": 2.7005128860473633,
+      "validation_accuracy": 1.0,
+      "validation_f1": 1.0,
+      "test_accuracy": 1.0,
+      "test_precision": 1.0,
+      "test_recall": 1.0,
+      "test_f1": 1.0,
+      "unique_correct": 1800,
+      "unique_errors": 0,
+      "feature_dimension": 2048,
+      "training_algorithm": "sklearn"
+    },
+    {
+      "model": "Random Forest",
+      "training_time": 2.33719801902771,
+      "validation_accuracy": 0.9922222222222222,
+      "validation_f1": 0.9922147205259955,
+      "test_accuracy": 0.995,
+      "test_precision": 0.995008097828875,
+      "test_recall": 0.995,
+      "test_f1": 0.9949957742262786,
+      "unique_correct": 1791,
+      "unique_errors": 9,
+      "feature_dimension": 2048,
+      "training_algorithm": "sklearn"
+    },
+    {
+      "model": "SVM (Linear)",
+      "training_time": 1.2799770832061768,
+      "validation_accuracy": 1.0,
+      "validation_f1": 1.0,
+      "test_accuracy": 1.0,
+      "test_precision": 1.0,
+      "test_recall": 1.0,
+      "test_f1": 1.0,
+      "unique_correct": 1800,
+      "unique_errors": 0,
+      "feature_dimension": 2048,
+      "training_algorithm": "sklearn"
+    }
+  ],
+  "comparison_summary": {
+    "Method": {
+      "0": "Feature Extraction",
+      "1": "Feature Extraction",
+      "2": "Feature Extraction",
+      "3": "Transfer Learning"
+    },
+    "Model": {
+      "0": "SVM (RBF)",
+      "1": "Random Forest",
+      "2": "SVM (Linear)",
+      "3": "ResNet-50 (Transfer Learning)"
+    },
+    "Runtime (s)": {
+      "0": "2.70",
+      "1": "2.34",
+      "2": "1.28",
+      "3": "N/A"
+    },
+    "Test Accuracy": {
+      "0": "1.0000",
+      "1": "0.9950",
+      "2": "1.0000",
+      "3": "0.0000"
+    },
+    "Test Precision": {
+      "0": "1.0000",
+      "1": "0.9950",
+      "2": "1.0000",
+      "3": "0.0000"
+    },
+    "Test Recall": {
+      "0": "1.0000",
+      "1": "0.9950",
+      "2": "1.0000",
+      "3": "0.0000"
+    },
+    "Test F1": {
+      "0": "1.0000",
+      "1": "0.9950",
+      "2": "1.0000",
+      "3": "0.0000"
+    },
+    "Unique Correct": {
+      "0": 1800,
+      "1": 1791,
+      "2": 1800,
+      "3": "N/A"
+    },
+    "Unique Errors": {
+      "0": 0,
+      "1": 9,
+      "2": 0,
+      "3": 20
+    }
+  }
+}

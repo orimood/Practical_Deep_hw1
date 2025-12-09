@@ -1,0 +1,162 @@
+/Users/orimood/Desktop/homework/Visual Studio Code/Practical_Deep_hw1/venv/lib/python3.13/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/Users/orimood/Desktop/homework/Visual Studio Code/Practical_Deep_hw1/venv/lib/python3.13/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Using device: cpu
+Loading datasets...
+Train samples: 6300
+Val samples:   900
+Test samples:  1800
+
+Loading feature extractor...
+
+Extracting features...
+Extracting features from training set...
+Extracting training set:   0%|          | 0/197 [00:00<?, ?it/s]Extracting training set:   1%|          | 1/197 [00:14<46:12, 14.14s/it]Extracting training set:   1%|          | 2/197 [00:17<26:05,  8.03s/it]Extracting training set:   2%|▏         | 3/197 [00:22<21:10,  6.55s/it]Extracting training set:   2%|▏         | 4/197 [00:27<18:37,  5.79s/it]Extracting training set:   3%|▎         | 5/197 [00:32<17:15,  5.40s/it]Extracting training set:   3%|▎         | 6/197 [00:36<16:32,  5.20s/it]Extracting training set:   4%|▎         | 7/197 [00:42<16:31,  5.22s/it]Extracting training set:   4%|▍         | 8/197 [00:47<16:11,  5.14s/it]Extracting training set:   5%|▍         | 9/197 [00:51<15:46,  5.03s/it]Extracting training set:   5%|▌         | 10/197 [00:56<15:22,  4.93s/it]Extracting training set:   6%|▌         | 11/197 [01:01<15:04,  4.86s/it]Extracting training set:   6%|▌         | 12/197 [01:05<14:46,  4.79s/it]Extracting training set:   7%|▋         | 13/197 [01:11<15:02,  4.91s/it]Extracting training set:   7%|▋         | 14/197 [01:15<14:42,  4.82s/it]Extracting training set:   8%|▊         | 15/197 [01:20<14:52,  4.91s/it]Extracting training set:   8%|▊         | 16/197 [01:25<14:31,  4.82s/it]Extracting training set:   9%|▊         | 17/197 [01:30<14:21,  4.79s/it]Extracting training set:   9%|▉         | 18/197 [01:34<14:07,  4.74s/it]Extracting training set:  10%|▉         | 19/197 [01:39<13:54,  4.69s/it]Extracting training set:  10%|█         | 20/197 [01:43<13:40,  4.63s/it]Extracting training set:  11%|█         | 21/197 [01:48<13:32,  4.62s/it]Extracting training set:  11%|█         | 22/197 [01:53<13:28,  4.62s/it]Extracting training set:  12%|█▏        | 23/197 [01:57<13:23,  4.62s/it]Extracting training set:  12%|█▏        | 24/197 [02:02<13:23,  4.64s/it]Extracting training set:  13%|█▎        | 25/197 [02:07<13:37,  4.75s/it]Extracting training set:  13%|█▎        | 26/197 [02:12<13:40,  4.80s/it]Extracting training set:  14%|█▎        | 27/197 [02:16<13:31,  4.77s/it]Extracting training set:  14%|█▍        | 28/197 [02:22<13:40,  4.86s/it]Extracting training set:  15%|█▍        | 29/197 [02:26<13:29,  4.82s/it]Extracting training set:  15%|█▌        | 30/197 [02:31<13:10,  4.73s/it]Extracting training set:  16%|█▌        | 31/197 [02:35<12:58,  4.69s/it]Extracting training set:  16%|█▌        | 32/197 [02:40<13:09,  4.78s/it]Extracting training set:  17%|█▋        | 33/197 [02:45<13:04,  4.78s/it]Extracting training set:  17%|█▋        | 34/197 [02:50<13:15,  4.88s/it]Extracting training set:  18%|█▊        | 35/197 [02:55<13:05,  4.85s/it]Extracting training set:  18%|█▊        | 36/197 [03:00<12:56,  4.82s/it]Extracting training set:  19%|█▉        | 37/197 [03:05<12:59,  4.87s/it]Extracting training set:  19%|█▉        | 38/197 [03:10<12:56,  4.89s/it]Extracting training set:  20%|█▉        | 39/197 [03:14<12:44,  4.84s/it]Extracting training set:  20%|██        | 40/197 [03:19<12:34,  4.81s/it]Extracting training set:  21%|██        | 41/197 [03:24<12:20,  4.74s/it]Extracting training set:  21%|██▏       | 42/197 [03:28<12:14,  4.74s/it]Extracting training set:  22%|██▏       | 43/197 [03:33<11:54,  4.64s/it]Extracting training set:  22%|██▏       | 44/197 [03:38<11:56,  4.68s/it]Extracting training set:  23%|██▎       | 45/197 [03:42<11:43,  4.63s/it]Extracting training set:  23%|██▎       | 46/197 [03:47<11:33,  4.59s/it]Extracting training set:  24%|██▍       | 47/197 [03:51<11:27,  4.58s/it]Extracting training set:  24%|██▍       | 48/197 [03:56<11:26,  4.61s/it]Extracting training set:  25%|██▍       | 49/197 [04:02<12:06,  4.91s/it]Extracting training set:  25%|██▌       | 50/197 [04:06<12:03,  4.92s/it]Extracting training set:  26%|██▌       | 51/197 [04:11<11:56,  4.91s/it]Extracting training set:  26%|██▋       | 52/197 [04:16<12:00,  4.97s/it]Extracting training set:  27%|██▋       | 53/197 [04:22<12:03,  5.03s/it]Extracting training set:  27%|██▋       | 54/197 [04:26<11:47,  4.95s/it]Extracting training set:  28%|██▊       | 55/197 [04:31<11:20,  4.79s/it]Extracting training set:  28%|██▊       | 56/197 [04:35<11:07,  4.74s/it]Extracting training set:  29%|██▉       | 57/197 [04:41<11:21,  4.87s/it]Extracting training set:  29%|██▉       | 58/197 [04:45<11:13,  4.85s/it]Extracting training set:  30%|██▉       | 59/197 [04:50<11:11,  4.86s/it]Extracting training set:  30%|███       | 60/197 [04:55<10:59,  4.81s/it]Extracting training set:  31%|███       | 61/197 [05:00<11:00,  4.85s/it]Extracting training set:  31%|███▏      | 62/197 [05:05<10:54,  4.85s/it]Extracting training set:  32%|███▏      | 63/197 [05:09<10:36,  4.75s/it]Extracting training set:  32%|███▏      | 64/197 [05:14<10:29,  4.74s/it]Extracting training set:  33%|███▎      | 65/197 [05:19<10:44,  4.88s/it]Extracting training set:  34%|███▎      | 66/197 [05:24<10:30,  4.82s/it]Extracting training set:  34%|███▍      | 67/197 [05:29<10:21,  4.78s/it]Extracting training set:  35%|███▍      | 68/197 [05:33<10:17,  4.78s/it]Extracting training set:  35%|███▌      | 69/197 [05:38<10:11,  4.78s/it]Extracting training set:  36%|███▌      | 70/197 [05:43<10:02,  4.74s/it]Extracting training set:  36%|███▌      | 71/197 [05:47<09:54,  4.72s/it]Extracting training set:  37%|███▋      | 72/197 [05:52<09:51,  4.73s/it]Extracting training set:  37%|███▋      | 73/197 [05:57<09:51,  4.77s/it]Extracting training set:  38%|███▊      | 74/197 [06:02<09:38,  4.71s/it]Extracting training set:  38%|███▊      | 75/197 [06:06<09:30,  4.68s/it]Extracting training set:  39%|███▊      | 76/197 [06:11<09:22,  4.65s/it]Extracting training set:  39%|███▉      | 77/197 [06:15<09:14,  4.62s/it]Extracting training set:  40%|███▉      | 78/197 [06:20<09:04,  4.57s/it]Extracting training set:  40%|████      | 79/197 [06:24<09:02,  4.60s/it]Extracting training set:  41%|████      | 80/197 [06:29<08:53,  4.56s/it]Extracting training set:  41%|████      | 81/197 [06:34<08:48,  4.56s/it]Extracting training set:  42%|████▏     | 82/197 [06:38<08:45,  4.57s/it]Extracting training set:  42%|████▏     | 83/197 [06:43<08:40,  4.57s/it]Extracting training set:  43%|████▎     | 84/197 [06:47<08:37,  4.58s/it]Extracting training set:  43%|████▎     | 85/197 [06:52<08:33,  4.58s/it]Extracting training set:  44%|████▎     | 86/197 [06:56<08:30,  4.60s/it]Extracting training set:  44%|████▍     | 87/197 [07:01<08:23,  4.58s/it]Extracting training set:  45%|████▍     | 88/197 [07:06<08:18,  4.57s/it]Extracting training set:  45%|████▌     | 89/197 [07:10<08:17,  4.61s/it]Extracting training set:  46%|████▌     | 90/197 [07:15<08:16,  4.64s/it]Extracting training set:  46%|████▌     | 91/197 [07:20<08:12,  4.64s/it]Extracting training set:  47%|████▋     | 92/197 [07:24<08:07,  4.64s/it]Extracting training set:  47%|████▋     | 93/197 [07:29<08:13,  4.75s/it]Extracting training set:  48%|████▊     | 94/197 [07:34<08:09,  4.75s/it]Extracting training set:  48%|████▊     | 95/197 [07:39<07:58,  4.69s/it]Extracting training set:  49%|████▊     | 96/197 [07:43<07:58,  4.73s/it]Extracting training set:  49%|████▉     | 97/197 [07:48<07:53,  4.74s/it]Extracting training set:  50%|████▉     | 98/197 [07:53<07:47,  4.72s/it]Extracting training set:  50%|█████     | 99/197 [07:57<07:40,  4.69s/it]Extracting training set:  51%|█████     | 100/197 [08:02<07:30,  4.64s/it]Extracting training set:  51%|█████▏    | 101/197 [08:07<07:29,  4.68s/it]Extracting training set:  52%|█████▏    | 102/197 [08:11<07:19,  4.63s/it]Extracting training set:  52%|█████▏    | 103/197 [08:16<07:15,  4.64s/it]Extracting training set:  53%|█████▎    | 104/197 [08:21<07:21,  4.75s/it]Extracting training set:  53%|█████▎    | 105/197 [08:26<07:13,  4.71s/it]Extracting training set:  54%|█████▍    | 106/197 [08:30<07:04,  4.66s/it]Extracting training set:  54%|█████▍    | 107/197 [08:35<06:56,  4.63s/it]Extracting training set:  55%|█████▍    | 108/197 [08:39<06:49,  4.60s/it]Extracting training set:  55%|█████▌    | 109/197 [08:44<06:42,  4.57s/it]Extracting training set:  56%|█████▌    | 110/197 [08:48<06:41,  4.61s/it]Extracting training set:  56%|█████▋    | 111/197 [08:53<06:45,  4.71s/it]Extracting training set:  57%|█████▋    | 112/197 [08:58<06:43,  4.74s/it]Extracting training set:  57%|█████▋    | 113/197 [09:03<06:33,  4.68s/it]Extracting training set:  58%|█████▊    | 114/197 [09:07<06:22,  4.61s/it]Extracting training set:  58%|█████▊    | 115/197 [09:12<06:14,  4.57s/it]Extracting training set:  59%|█████▉    | 116/197 [09:16<06:05,  4.51s/it]Extracting training set:  59%|█████▉    | 117/197 [09:21<06:01,  4.52s/it]Extracting training set:  60%|█████▉    | 118/197 [09:25<06:01,  4.57s/it]Extracting training set:  60%|██████    | 119/197 [09:30<05:54,  4.55s/it]Extracting training set:  61%|██████    | 120/197 [09:34<05:46,  4.50s/it]Extracting training set:  61%|██████▏   | 121/197 [09:39<05:39,  4.46s/it]Extracting training set:  62%|██████▏   | 122/197 [09:43<05:33,  4.45s/it]Extracting training set:  62%|██████▏   | 123/197 [09:47<05:29,  4.46s/it]Extracting training set:  63%|██████▎   | 124/197 [09:52<05:26,  4.47s/it]Extracting training set:  63%|██████▎   | 125/197 [09:57<05:31,  4.61s/it]Extracting training set:  64%|██████▍   | 126/197 [10:01<05:22,  4.54s/it]Extracting training set:  64%|██████▍   | 127/197 [10:06<05:23,  4.62s/it]Extracting training set:  65%|██████▍   | 128/197 [10:11<05:18,  4.62s/it]Extracting training set:  65%|██████▌   | 129/197 [10:15<05:14,  4.63s/it]Extracting training set:  66%|██████▌   | 130/197 [10:20<05:06,  4.57s/it]Extracting training set:  66%|██████▋   | 131/197 [10:25<05:06,  4.64s/it]Extracting training set:  67%|██████▋   | 132/197 [10:30<05:10,  4.77s/it]Extracting training set:  68%|██████▊   | 133/197 [10:34<05:00,  4.70s/it]Extracting training set:  68%|██████▊   | 134/197 [10:39<04:53,  4.66s/it]Extracting training set:  69%|██████▊   | 135/197 [10:44<04:51,  4.70s/it]Extracting training set:  69%|██████▉   | 136/197 [10:48<04:44,  4.66s/it]Extracting training set:  70%|██████▉   | 137/197 [10:53<04:37,  4.63s/it]Extracting training set:  70%|███████   | 138/197 [10:57<04:36,  4.69s/it]Extracting training set:  71%|███████   | 139/197 [11:02<04:32,  4.70s/it]Extracting training set:  71%|███████   | 140/197 [11:07<04:29,  4.73s/it]Extracting training set:  72%|███████▏  | 141/197 [11:12<04:30,  4.83s/it]Extracting training set:  72%|███████▏  | 142/197 [11:17<04:24,  4.80s/it]Extracting training set:  73%|███████▎  | 143/197 [11:22<04:21,  4.84s/it]Extracting training set:  73%|███████▎  | 144/197 [11:26<04:08,  4.68s/it]Extracting training set:  74%|███████▎  | 145/197 [11:31<04:03,  4.67s/it]Extracting training set:  74%|███████▍  | 146/197 [11:35<03:56,  4.63s/it]Extracting training set:  75%|███████▍  | 147/197 [11:40<03:56,  4.74s/it]Extracting training set:  75%|███████▌  | 148/197 [11:45<03:47,  4.64s/it]Extracting training set:  76%|███████▌  | 149/197 [11:49<03:42,  4.65s/it]Extracting training set:  76%|███████▌  | 150/197 [11:54<03:34,  4.57s/it]Extracting training set:  77%|███████▋  | 151/197 [11:58<03:31,  4.60s/it]Extracting training set:  77%|███████▋  | 152/197 [12:03<03:24,  4.55s/it]Extracting training set:  78%|███████▊  | 153/197 [12:07<03:22,  4.60s/it]Extracting training set:  78%|███████▊  | 154/197 [12:12<03:13,  4.51s/it]Extracting training set:  79%|███████▊  | 155/197 [12:16<03:10,  4.52s/it]Extracting training set:  79%|███████▉  | 156/197 [12:21<03:02,  4.45s/it]Extracting training set:  80%|███████▉  | 157/197 [12:25<02:59,  4.48s/it]Extracting training set:  80%|████████  | 158/197 [12:30<02:53,  4.44s/it]Extracting training set:  81%|████████  | 159/197 [12:34<02:50,  4.48s/it]Extracting training set:  81%|████████  | 160/197 [12:38<02:44,  4.44s/it]Extracting training set:  82%|████████▏ | 161/197 [12:43<02:40,  4.45s/it]Extracting training set:  82%|████████▏ | 162/197 [12:47<02:35,  4.43s/it]Extracting training set:  83%|████████▎ | 163/197 [12:52<02:32,  4.47s/it]Extracting training set:  83%|████████▎ | 164/197 [12:56<02:27,  4.47s/it]Extracting training set:  84%|████████▍ | 165/197 [13:01<02:23,  4.48s/it]Extracting training set:  84%|████████▍ | 166/197 [13:05<02:19,  4.49s/it]Extracting training set:  85%|████████▍ | 167/197 [13:10<02:16,  4.55s/it]Extracting training set:  85%|████████▌ | 168/197 [13:15<02:12,  4.58s/it]Extracting training set:  86%|████████▌ | 169/197 [13:20<02:10,  4.67s/it]Extracting training set:  86%|████████▋ | 170/197 [13:24<02:03,  4.58s/it]Extracting training set:  87%|████████▋ | 171/197 [13:29<02:01,  4.66s/it]Extracting training set:  87%|████████▋ | 172/197 [13:33<01:56,  4.66s/it]Extracting training set:  88%|████████▊ | 173/197 [13:38<01:52,  4.68s/it]Extracting training set:  88%|████████▊ | 174/197 [13:43<01:50,  4.78s/it]Extracting training set:  89%|████████▉ | 175/197 [13:48<01:44,  4.73s/it]Extracting training set:  89%|████████▉ | 176/197 [13:52<01:37,  4.63s/it]Extracting training set:  90%|████████▉ | 177/197 [13:57<01:33,  4.68s/it]Extracting training set:  90%|█████████ | 178/197 [14:02<01:29,  4.72s/it]Extracting training set:  91%|█████████ | 179/197 [14:06<01:24,  4.68s/it]Extracting training set:  91%|█████████▏| 180/197 [14:11<01:18,  4.64s/it]Extracting training set:  92%|█████████▏| 181/197 [14:16<01:14,  4.64s/it]Extracting training set:  92%|█████████▏| 182/197 [14:20<01:09,  4.66s/it]Extracting training set:  93%|█████████▎| 183/197 [14:25<01:06,  4.75s/it]Extracting training set:  93%|█████████▎| 184/197 [14:30<01:01,  4.75s/it]Extracting training set:  94%|█████████▍| 185/197 [14:35<00:57,  4.76s/it]Extracting training set:  94%|█████████▍| 186/197 [14:39<00:51,  4.72s/it]Extracting training set:  95%|█████████▍| 187/197 [14:44<00:46,  4.67s/it]Extracting training set:  95%|█████████▌| 188/197 [14:48<00:41,  4.61s/it]Extracting training set:  96%|█████████▌| 189/197 [14:53<00:36,  4.57s/it]Extracting training set:  96%|█████████▋| 190/197 [14:57<00:31,  4.55s/it]Extracting training set:  97%|█████████▋| 191/197 [15:02<00:26,  4.49s/it]Extracting training set:  97%|█████████▋| 192/197 [15:06<00:22,  4.45s/it]Extracting training set:  98%|█████████▊| 193/197 [15:11<00:17,  4.48s/it]Extracting training set:  98%|█████████▊| 194/197 [15:15<00:13,  4.52s/it]Extracting training set:  99%|█████████▉| 195/197 [15:20<00:09,  4.53s/it]Extracting training set:  99%|█████████▉| 196/197 [15:24<00:04,  4.53s/it]Extracting training set: 100%|██████████| 197/197 [15:28<00:00,  4.39s/it]Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracting training set: 100%|██████████| 197/197 [15:48<00:00,  4.82s/it]
+Extracted 6300 samples with 2048 features
+Extracting features from validation set...
+Extracting validation set:   0%|          | 0/29 [00:00<?, ?it/s]Extracting validation set:   3%|▎         | 1/29 [00:08<03:54,  8.38s/it]Extracting validation set:   7%|▋         | 2/29 [00:13<02:47,  6.21s/it]Extracting validation set:  10%|█         | 3/29 [00:17<02:22,  5.49s/it]Extracting validation set:  14%|█▍        | 4/29 [00:22<02:06,  5.06s/it]Extracting validation set:  17%|█▋        | 5/29 [00:26<01:57,  4.90s/it]Extracting validation set:  21%|██        | 6/29 [00:31<01:52,  4.88s/it]Extracting validation set:  24%|██▍       | 7/29 [00:36<01:45,  4.79s/it]Extracting validation set:  28%|██▊       | 8/29 [00:40<01:37,  4.62s/it]Extracting validation set:  31%|███       | 9/29 [00:44<01:31,  4.57s/it]Extracting validation set:  34%|███▍      | 10/29 [00:49<01:25,  4.52s/it]Extracting validation set:  38%|███▊      | 11/29 [00:53<01:21,  4.53s/it]Extracting validation set:  41%|████▏     | 12/29 [00:58<01:16,  4.48s/it]Extracting validation set:  45%|████▍     | 13/29 [01:02<01:11,  4.48s/it]Extracting validation set:  48%|████▊     | 14/29 [01:07<01:06,  4.46s/it]Extracting validation set:  52%|█████▏    | 15/29 [01:11<01:03,  4.52s/it]Extracting validation set:  55%|█████▌    | 16/29 [01:16<00:58,  4.51s/it]Extracting validation set:  59%|█████▊    | 17/29 [01:20<00:54,  4.51s/it]Extracting validation set:  62%|██████▏   | 18/29 [01:25<00:51,  4.71s/it]Extracting validation set:  66%|██████▌   | 19/29 [01:30<00:47,  4.73s/it]Extracting validation set:  69%|██████▉   | 20/29 [01:35<00:42,  4.71s/it]Extracting validation set:  72%|███████▏  | 21/29 [01:40<00:37,  4.75s/it]Extracting validation set:  76%|███████▌  | 22/29 [01:44<00:32,  4.68s/it]Extracting validation set:  79%|███████▉  | 23/29 [01:49<00:27,  4.64s/it]Extracting validation set:  83%|████████▎ | 24/29 [01:54<00:23,  4.72s/it]Extracting validation set:  86%|████████▌ | 25/29 [01:58<00:18,  4.71s/it]Extracting validation set:  90%|████████▉ | 26/29 [02:03<00:14,  4.70s/it]Extracting validation set:  93%|█████████▎| 27/29 [02:08<00:09,  4.69s/it]Extracting validation set:  97%|█████████▋| 28/29 [02:12<00:04,  4.70s/it]Extracting validation set: 100%|██████████| 29/29 [02:13<00:00,  3.33s/it]Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracting validation set: 100%|██████████| 29/29 [02:33<00:00,  5.28s/it]
+Extracted 900 samples with 2048 features
+Extracting features from test set...
+Extracting test set:   0%|          | 0/57 [00:00<?, ?it/s]Extracting test set:   2%|▏         | 1/57 [00:07<07:00,  7.51s/it]Extracting test set:   4%|▎         | 2/57 [00:12<05:16,  5.75s/it]Extracting test set:   5%|▌         | 3/57 [00:16<04:38,  5.15s/it]Extracting test set:   7%|▋         | 4/57 [00:20<04:19,  4.90s/it]Extracting test set:   9%|▉         | 5/57 [00:25<04:04,  4.70s/it]Extracting test set:  11%|█         | 6/57 [00:29<03:57,  4.65s/it]Extracting test set:  12%|█▏        | 7/57 [00:34<03:48,  4.57s/it]Extracting test set:  14%|█▍        | 8/57 [00:38<03:42,  4.54s/it]Extracting test set:  16%|█▌        | 9/57 [00:43<03:35,  4.50s/it]Extracting test set:  18%|█▊        | 10/57 [00:47<03:29,  4.46s/it]Extracting test set:  19%|█▉        | 11/57 [00:52<03:26,  4.49s/it]Extracting test set:  21%|██        | 12/57 [00:56<03:20,  4.45s/it]Extracting test set:  23%|██▎       | 13/57 [01:01<03:20,  4.56s/it]Extracting test set:  25%|██▍       | 14/57 [01:05<03:12,  4.47s/it]Extracting test set:  26%|██▋       | 15/57 [01:10<03:09,  4.50s/it]Extracting test set:  28%|██▊       | 16/57 [01:14<03:01,  4.43s/it]Extracting test set:  30%|██▉       | 17/57 [01:18<02:58,  4.46s/it]Extracting test set:  32%|███▏      | 18/57 [01:23<02:53,  4.45s/it]Extracting test set:  33%|███▎      | 19/57 [01:27<02:51,  4.51s/it]Extracting test set:  35%|███▌      | 20/57 [01:32<02:45,  4.48s/it]Extracting test set:  37%|███▋      | 21/57 [01:36<02:41,  4.47s/it]Extracting test set:  39%|███▊      | 22/57 [01:41<02:37,  4.49s/it]Extracting test set:  40%|████      | 23/57 [01:45<02:32,  4.50s/it]Extracting test set:  42%|████▏     | 24/57 [01:50<02:28,  4.51s/it]Extracting test set:  44%|████▍     | 25/57 [01:55<02:25,  4.55s/it]Extracting test set:  46%|████▌     | 26/57 [01:59<02:20,  4.52s/it]Extracting test set:  47%|████▋     | 27/57 [02:04<02:18,  4.61s/it]Extracting test set:  49%|████▉     | 28/57 [02:08<02:10,  4.49s/it]Extracting test set:  51%|█████     | 29/57 [02:13<02:05,  4.49s/it]Extracting test set:  53%|█████▎    | 30/57 [02:17<01:58,  4.38s/it]Extracting test set:  54%|█████▍    | 31/57 [02:21<01:51,  4.30s/it]Extracting test set:  56%|█████▌    | 32/57 [02:25<01:45,  4.24s/it]Extracting test set:  58%|█████▊    | 33/57 [02:29<01:41,  4.23s/it]Extracting test set:  60%|█████▉    | 34/57 [02:33<01:36,  4.21s/it]Extracting test set:  61%|██████▏   | 35/57 [02:38<01:32,  4.23s/it]Extracting test set:  63%|██████▎   | 36/57 [02:42<01:28,  4.20s/it]Extracting test set:  65%|██████▍   | 37/57 [02:46<01:24,  4.21s/it]Extracting test set:  67%|██████▋   | 38/57 [02:50<01:20,  4.22s/it]Extracting test set:  68%|██████▊   | 39/57 [02:54<01:16,  4.22s/it]Extracting test set:  70%|███████   | 40/57 [02:59<01:11,  4.20s/it]Extracting test set:  72%|███████▏  | 41/57 [03:03<01:06,  4.18s/it]Extracting test set:  74%|███████▎  | 42/57 [03:07<01:02,  4.16s/it]Extracting test set:  75%|███████▌  | 43/57 [03:11<00:58,  4.18s/it]Extracting test set:  77%|███████▋  | 44/57 [03:15<00:54,  4.22s/it]Extracting test set:  79%|███████▉  | 45/57 [03:20<00:52,  4.39s/it]Extracting test set:  81%|████████  | 46/57 [03:25<00:48,  4.43s/it]Extracting test set:  82%|████████▏ | 47/57 [03:29<00:44,  4.42s/it]Extracting test set:  84%|████████▍ | 48/57 [03:34<00:40,  4.55s/it]Extracting test set:  86%|████████▌ | 49/57 [03:39<00:37,  4.64s/it]Extracting test set:  88%|████████▊ | 50/57 [03:44<00:32,  4.69s/it]Extracting test set:  89%|████████▉ | 51/57 [03:48<00:28,  4.67s/it]Extracting test set:  91%|█████████ | 52/57 [03:53<00:23,  4.69s/it]Extracting test set:  93%|█████████▎| 53/57 [03:58<00:18,  4.70s/it]Extracting test set:  95%|█████████▍| 54/57 [04:02<00:14,  4.76s/it]Extracting test set:  96%|█████████▋| 55/57 [04:07<00:09,  4.69s/it]Extracting test set:  98%|█████████▊| 56/57 [04:11<00:04,  4.61s/it]Extracting test set: 100%|██████████| 57/57 [04:12<00:00,  3.28s/it]Using device: cpu
+Using device: cpu
+Using device: cpu
+Using device: cpu
+Extracting test set: 100%|██████████| 57/57 [04:32<00:00,  4.77s/it]
+Extracted 1800 samples with 2048 features
+
+Feature extraction complete!
+Feature dimension: 2048
+
+============================================================
+Training Support Vector Machine (SVM)...
+
+============================================================
+Training SVM (RBF)...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for SVM (RBF):
+Training Time: 2.14 seconds
+
+Validation Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Results:
+  Unique Correct: 1800
+  Unique Errors:  0
+
+============================================================
+Training Random Forest...
+
+============================================================
+Training Random Forest...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for Random Forest:
+Training Time: 2.51 seconds
+
+Validation Metrics:
+  Accuracy:  0.9922
+  Precision: 0.9924
+  Recall:    0.9922
+  F1-Score:  0.9922
+
+Test Metrics:
+  Accuracy:  0.9950
+  Precision: 0.9950
+  Recall:    0.9950
+  F1-Score:  0.9950
+
+Test Results:
+  Unique Correct: 1791
+  Unique Errors:  9
+
+============================================================
+Training Linear SVM...
+
+============================================================
+Training SVM (Linear)...
+============================================================
+Making validation predictions...
+Making test predictions...
+
+Results for SVM (Linear):
+Training Time: 1.23 seconds
+
+Validation Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Metrics:
+  Accuracy:  1.0000
+  Precision: 1.0000
+  Recall:    1.0000
+  F1-Score:  1.0000
+
+Test Results:
+  Unique Correct: 1800
+  Unique Errors:  0
+
+====================================================================================================
+COMPARISON SUMMARY: Feature Extraction vs Transfer Learning
+====================================================================================================
+
+            Method                         Model Runtime (s) Test Accuracy Test Precision Test Recall Test F1 Unique Correct  Unique Errors
+Feature Extraction                     SVM (RBF)        2.14        1.0000         1.0000      1.0000  1.0000           1800              0
+Feature Extraction                 Random Forest        2.51        0.9950         0.9950      0.9950  0.9950           1791              9
+Feature Extraction                  SVM (Linear)        1.23        1.0000         1.0000      1.0000  1.0000           1800              0
+ Transfer Learning ResNet-50 (Transfer Learning)         N/A        0.0000         0.0000      0.0000  0.0000            N/A             20
+
+
+Plotting confusion matrices...
+Saved confusion matrix plot to models/svm_(rbf)_confusion_matrices.png
+Saved confusion matrix plot to models/random_forest_confusion_matrices.png
+Saved confusion matrix plot to models/svm_(linear)_confusion_matrices.png
+
+Saving results...
+
+Results saved to models/feature_extraction_results.json
+Comparison table saved to models/feature_extraction_comparison.csv
+
+====================================================================================================
+FEATURE EXTRACTION EXPERIMENT COMPLETE
+====================================================================================================
+
+Key Findings:
+  Best Feature Extraction Model: SVM (RBF)
+  Test Accuracy: 1.0000
+
+Parameter Settings:
+  Feature Extractor: ResNet-50 (pretrained on ImageNet)
+  Feature Dimension: 2048
+  Training Set Size: 6300
+  Number of Classes: 9
+
+Processing Changes:
+  - Removed last FC layer from ResNet-50
+  - Extracted 2048-dimensional features
+  - Applied classical ML algorithms on fixed features
+  - No fine-tuning (features remain fixed from ImageNet pretraining)

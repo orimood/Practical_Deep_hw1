@@ -71,7 +71,8 @@ class FishDataset(Dataset):
                 print(f"Warning: {class_dir} does not exist")
                 continue
             
-            for img_path in class_dir.glob('*.jpg'):
+            # Look for both .jpg and .png files
+            for img_path in list(class_dir.glob('*.jpg')) + list(class_dir.glob('*.png')):
                 self.image_paths.append(img_path)
                 self.labels.append(self.class_to_idx[class_name])
     

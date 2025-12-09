@@ -1,0 +1,123 @@
+{
+  "model_name": "ResNet-50",
+  "total_parameters": 23526473,
+  "val_loss": 0.6016975529988606,
+  "val_acc": 99.55555555555556,
+  "test_loss": 0.6023827380604214,
+  "test_acc": 98.88888888888889,
+  "unique_correct_samples": 1780,
+  "unique_errors": 20,
+  "class_names": [
+    "Black Sea Sprat",
+    "Gilt-Head Bream",
+    "Hourse Mackerel",
+    "Red Mullet",
+    "Red Sea Bream",
+    "Sea Bass",
+    "Shrimp",
+    "Striped Red Mullet",
+    "Trout"
+  ],
+  "error_samples": [
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Gilt-Head Bream\\00293.png",
+      "true_label": 1,
+      "predicted_label": 4
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Gilt-Head Bream\\00320.png",
+      "true_label": 1,
+      "predicted_label": 4
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Gilt-Head Bream\\00627.png",
+      "true_label": 1,
+      "predicted_label": 4
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Gilt-Head Bream\\00653.png",
+      "true_label": 1,
+      "predicted_label": 4
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Red Sea Bream\\00347.png",
+      "true_label": 4,
+      "predicted_label": 1
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00236.png",
+      "true_label": 5,
+      "predicted_label": 1
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00255.png",
+      "true_label": 5,
+      "predicted_label": 8
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00329.png",
+      "true_label": 5,
+      "predicted_label": 0
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00529.png",
+      "true_label": 5,
+      "predicted_label": 0
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00530.png",
+      "true_label": 5,
+      "predicted_label": 0
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00535.png",
+      "true_label": 5,
+      "predicted_label": 0
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00549.png",
+      "true_label": 5,
+      "predicted_label": 0
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00550.png",
+      "true_label": 5,
+      "predicted_label": 1
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00555.png",
+      "true_label": 5,
+      "predicted_label": 1
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Sea Bass\\00698.png",
+      "true_label": 5,
+      "predicted_label": 1
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Striped Red Mullet\\00011.png",
+      "true_label": 7,
+      "predicted_label": 3
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Striped Red Mullet\\00031.png",
+      "true_label": 7,
+      "predicted_label": 3
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Striped Red Mullet\\00040.png",
+      "true_label": 7,
+      "predicted_label": 3
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Striped Red Mullet\\00211.png",
+      "true_label": 7,
+      "predicted_label": 3
+    },
+    {
+      "path": "D:\\Projects\\Practical_Deep_hw1\\Data\\split_fish_dataset\\test\\Striped Red Mullet\\00868.png",
+      "true_label": 7,
+      "predicted_label": 3
+    }
+  ]
+}

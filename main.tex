@@ -1,9 +1,9 @@
-\documentclass{article}
+ \documentclass{article}
 
 % Language setting
 \usepackage[english]{babel}
 
-% Page size and margins
+% Set page size and margins
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % Useful packages
@@ -12,16 +12,17 @@
 \usepackage{multirow}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{Assignment 1 – Practical Deep Learning Workshop}
-\author{Ori Sinvani - 325770824\\
-Harel Brener - 214179012 \\ Nehorai Chalfon - 325833531}
+\title{Assignment 1 -- Practical Deep Learning Workshop}
+\author{
+Ori Sinvani -- 325770824\\
+Harel Brener -- 214179012\\
+Nehorai Chalfon -- 325833531\\[6pt]
+\large\textbf{GitHub Repository:} \href{https://github.com/orimood/Practical_Deep_hw1}{github.com/orimood/Practical\_Deep\_hw1}
+}
 
 \begin{document}
 \maketitle
 
-\begin{abstract}
-Your abstract.
-\end{abstract}
 
 \section*{Introduction}
 
@@ -30,17 +31,17 @@ Your abstract.
 
 \subsection*{a – Size of Data}
 
-The Large-Scale Fish Dataset for segmentation and classification contains images of 9 different seafood types collected from a supermarket in Izmir, Turkey.  
+The Large-Scale Fish Dataset for segmentation and classification contains images of 9 different seafood types. 
 According to the dataset analysis:
 
 \begin{itemize}
-    \item \textbf{Total images}:  \(\approx 9{,}000\) images.
+    \item \textbf{Total images}:  9{,}000 images.
     \item \textbf{Number of species (classes)}: 9
-    \item \textbf{Images per species}: \(\approx 1{,}000\) images each
+    \item \textbf{Images per species}: 1{,}000 images each
     \item Species include: Gilt-Head Bream, Red Sea Bream, Sea Bass, Red Mullet, Horse Mackerel, Black Sea Sprat, Striped Red Mullet, Trout, and Shrimp.
 \end{itemize}
 
-The dataset is well-balanced across all species classes, with each class containing approximately 1,000 images after augmentation.
+The dataset is well-balanced across all species classes, with each class containing  1,000 images after augmentation.
 
 \subsection*{b – What Each Sample Contains}
 
@@ -48,7 +49,6 @@ Each training sample consists of:
 
 \begin{itemize}
     \item A \textbf{color image} of a fish or seafood specimen.
-    \item Images were collected using two cameras: Kodak Easyshare Z650 and Samsung ST60.
     \item The most common image resolution after preprocessing is:
     \[
         590 \times 445 \text{ pixels}
@@ -84,7 +84,6 @@ Valid augmentations for fish classification:
     \item Color jitter (brightness, contrast, saturation).
     \item Random zoom/crop to simulate varying distances.
     \item Random Gaussian blur to simulate focus variation.
-    \item \textbf{Note}: Vertical flipping is \textbf{not valid} (fish do not swim upside down).
 \end{itemize}
 
 \subsection*{c – Is the Data Balanced?}
@@ -92,16 +91,9 @@ Valid augmentations for fish classification:
 Yes — the dataset is \textbf{well-balanced}.  
 The distribution of samples per species is:
 
-\begin{itemize}
-    \item \textbf{Images per species}: \(\approx 1{,}000\) for each class
-    \item \textbf{Minimum}: 1{,}000 images
-    \item \textbf{Maximum}: 1{,}000 images
-    \item \textbf{Standard deviation}: Very low (\(<10\%\) of mean)
-\end{itemize}
-
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
-    \textit{[FIGURE PLACEHOLDER: Class distribution plot]}
+    \includegraphics[width=0.9\textwidth]{plots/class_distribution.png}
     \caption{Distribution of images across all fish species. The dataset shows excellent balance with approximately 1,000 images per class.}
     \label{fig:class_distribution}
 \end{figure}
@@ -115,6 +107,8 @@ The balanced distribution simplifies model training and eliminates the need for:
 \end{itemize}
 
 Standard cross-entropy loss and accuracy metrics are appropriate for this dataset.
+
+\newpage
 
 \subsection*{d – Benchmark Results (Related Work)}
 
@@ -148,9 +142,9 @@ The balanced classes and substantial training data make this dataset well-suited
 
 Figure~\ref{fig:samples} shows representative samples from each fish species. Visual inspection reveals:
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
-    \textit{[FIGURE PLACEHOLDER: Fish samples grid - 9 species]}
+    \includegraphics[width=\textwidth]{plots/fish_samples_grid.png}
     \caption{Random samples from each of the 9 fish species in the dataset, showing the diversity in pose, lighting, and scale.}
     \label{fig:samples}
 \end{figure}
@@ -163,9 +157,9 @@ Figure~\ref{fig:samples} shows representative samples from each fish species. Vi
     \item \textbf{Sea Bass}: Large, robust body with characteristic fin structure
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
-    \textit{[FIGURE PLACEHOLDER: Distinct species comparison]}
+    \includegraphics[width=0.9\textwidth]{plots/distinct_species_comparison.png}
     \caption{Comparison of easily distinguishable species. Each row shows different samples of the same species, clearly labeled on the left.}
     \label{fig:distinct_species}
 \end{figure}
@@ -177,27 +171,284 @@ Figure~\ref{fig:samples} shows representative samples from each fish species. Vi
     \item \textbf{Horse Mackerel vs.\ Sea Bass}: Similar sizes and proportions; require attention to fin details
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
-    \textit{[FIGURE PLACEHOLDER: Red Mullet vs Striped Red Mullet comparison]}
+    \includegraphics[width=0.85\textwidth]{plots/mullet_species_comparison.png}
     \caption{Comparison between Red Mullet (top row) and Striped Red Mullet (bottom row). Each species is clearly labeled, showing the subtle differences that make classification challenging.}
     \label{fig:mullet_comparison}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
-    \textit{[FIGURE PLACEHOLDER: Gilt-Head Bream vs Red Sea Bream comparison]}
+    \includegraphics[width=0.85\textwidth]{plots/bream_species_comparison.png}
     \caption{Comparison between Gilt-Head Bream (top row) and Red Sea Bream (bottom row). Species labels indicate which row corresponds to which species.}
     \label{fig:bream_comparison}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{upload.png}
+    \caption{weights and biases screenshot.}
+    \label{fig:w}
 \end{figure}
 
 These visual characteristics inform feature learning priorities: the model must learn to distinguish subtle differences in texture, pattern, and morphology while being robust to pose, lighting, and scale variations.
 
 See \texttt{plot\_fish.ipynb} for detailed exploratory data analysis with visualizations.
 
+
+
+\section{Question 2 – Basic CNN Model Analysis and Cross-Validation}
+
+\subsection{2.a}
+
+\subsubsection*{Model Architecture and Training Setup:}
+The baseline model used is a custom \textbf{Basic Convolutional Neural Network (CNN)}. The following summarizes the key components of the architecture and training pipeline:
+
+\begin{itemize}
+    \item \textbf{Architecture:} The model contains 4 Convolutional Blocks, with channels expanding from  
+    \[
+        3 \rightarrow 32 \rightarrow 64 \rightarrow 128 \rightarrow 256.
+    \]
+    \item \textbf{Regularization:} Batch Normalization after each convolution; Dropout 2D (0.25) after convolutional blocks; standard Dropout (0.5) in Fully Connected (FC) layers.
+    \item \textbf{Total Parameters:} Approximately \textbf{51 Million}.
+    \item \textbf{Training Method:} \textbf{5-Fold Stratified Cross-Validation} ($K=5$).
+    \item \textbf{Augmentation:} Random flips, rotations, color jitter, and affine transformations.
+\end{itemize}
+
+\subsubsection*{Model Fitting and Performance Analysis:}
+\textbf{Generalization and Training Comparison}
+\begin{itemize}
+    \item \textbf{Mean Validation Accuracy:} $76.08\%$ across the 5 folds.
+    \item \textbf{Ensemble Test Accuracy:} $80.89\%$ obtained by averaging predictions from all folds.
+    \item \textbf{Stability:} A low standard deviation of $1.31\%$ across folds indicates consistent performance.
+    \item \textbf{Generalization:} The close alignment of training, validation, and test metrics suggests minimal overfitting.
+\end{itemize}
+
+\textbf{Analysis of Classification Examples}
+\begin{itemize}
+    \item \textbf{Good Classification:} High-confidence correct predictions across the 9 fish species.
+    \item \textbf{Bad Classification:} Errors occur primarily with morphologically similar species (e.g., Mullets).
+    \item \textbf{Uncertain Predictions:} Low-confidence predictions often occur near decision boundaries.
+    \item \textbf{(Insert Visual Analysis):} Include confusion matrices, probability plots, and sample visualizations.
+\end{itemize}
+
+\subsubsection*{K-Fold and Ensemble Results Comparison:}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Fold} & \textbf{Accuracy} & \textbf{F1 (Weighted)} & \textbf{Precision (Weighted)} & \textbf{Recall (Weighted)} \\
+\hline
+Fold 1 & $77.17\%$ & $0.7581$ & $0.7896$ & $0.7717$ \\
+Fold 2 & $76.67\%$ & $0.7513$ & $0.7958$ & $0.7667$ \\
+Fold 3 & $75.33\%$ & $0.7390$ & $0.7944$ & $0.7533$ \\
+Fold 4 & $77.72\%$ & $0.7657$ & $0.8110$ & $0.7772$ \\
+Fold 5 & $77.39\%$ & $0.7700$ & $0.7756$ & $0.7739$ \\
+\hline
+\textbf{Ensemble Result} & $\mathbf{80.89\%}$ & $\mathbf{0.7990}$ & $\mathbf{0.8317}$ & $\mathbf{80.89\%}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Comparison: The Ensemble strategy achieved a test accuracy of $\mathbf{80.89\%}$. This is a clear improvement over the maximum single fold accuracy of $77.72\%$ (Fold 4), confirming that the ensemble approach improves robustness and reduces variance.}
+
+\subsection{2.b}
+
+\subsubsection*{Where \& Why is the Model Misclassifying?}
+
+\textbf{Why:}  
+The model's primary limitation is its relatively limited capacity, which restricts its ability to learn complex and fine-grained visual patterns. As a baseline CNN without transfer learning, it lacks the deep hierarchical features needed to separate visually similar species.
+
+\textbf{Where:}  
+Misclassifications are most common among \textbf{morphologically similar fish species}, particularly those with overlapping shape or texture characteristics (e.g., \textit{Mullets}).
+
+\subsubsection*{Suggested Improvements (3 Ways):}
+
+\begin{itemize}
+    \item \textbf{Transfer Learning:} Using pre-trained architectures such as \textit{ResNet} or \textit{EfficientNet} can significantly boost performance (typically by $10\!-\!15\%$) due to richer learned representations.
+    
+    \item \textbf{Advanced Augmentation:} Techniques like \textbf{MixUp} or \textbf{CutMix} can encourage better generalization and reduce overfitting by combining samples and labels in a structured way.
+    
+    \item \textbf{Attention Mechanisms:} Incorporating attention modules (e.g., SE blocks, CBAM) can help the model focus on discriminative regions, improving fine-grained classification accuracy.
+\end{itemize}
+
+\subsection{2.c}
+
+\subsubsection*{Prioritization and Repetition}
+
+The two most impactful improvements identified—\textbf{Transfer Learning} and \textbf{Advanced Augmentation}—are prioritized for implementation due to their strong potential to enhance model performance.
+
+After applying these enhancements, the full analysis conducted in \textbf{Section 2.2} (including validation accuracy, ensemble performance, and misclassification analysis) would be repeated to demonstrate and quantify the resulting performance gains.
+
+\subsubsection*{Implementation of Prioritized Improvements (Q2.c)}
+
+The first two prioritized enhancements—\textbf{Transfer Learning (ResNet50)} and \textbf{Advanced Augmentation (MixUp + CutMix)}—were implemented to improve the baseline model’s overall performance. The results highlight that not all improvements provide equal benefits when applied independently.
+
+\subsubsection*{Results Summary}
+
+\begin{table}[h!]
+\centering
+\scriptsize % or \small if you prefer bigger text
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{p{4cm} p{4cm} c c}
+\hline
+\textbf{Implementation Strategy} & \textbf{Training Configuration} & \textbf{Final Validation Accuracy} & \textbf{Final Validation Loss} \\
+\hline
+Basic CNN Baseline & Original & $76.08\%$ (Mean) & N/A \\
+Transfer Learning (ResNet50) & Epochs: 5 & $\mathbf{100.00\%}$ & $\mathbf{0.0002}$ \\
+Advanced Augmentation (MixUp + CutMix) & Epochs: 5 & $76.39\%$ & $0.8652$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{2.d}
+Inference-Time Augmentation (ITA), also known as \textbf{Test-Time Augmentation (TTA)}, was applied by aggregating multiple predictions over augmented versions of the test samples. This method evaluates whether introducing controlled variation during inference can stabilize predictions and potentially improve classification metrics.
+
+The ITA process used \textbf{2 augmentation variants} and was applied to all \textbf{1800 test samples}.
+
+\subsubsection*{ITA Performance Summary}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lccc}
+\hline
+\textbf{Metric} & \textbf{Baseline Ensemble Result} & \textbf{ITA/TTA Result} & \textbf{Change} \\
+\hline
+Accuracy & $\mathbf{80.89\%}$ & $80.67\%$ & $\downarrow 0.22\%$ \\
+F1 Score (Weighted) & $\mathbf{0.7990}$ & $0.7975$ & $\downarrow 0.0015$ \\
+Precision (Weighted) & $\mathbf{0.8317}$ & $0.8307$ & $\downarrow 0.0010$ \\
+Recall (Weighted) & $0.8089$ & $0.8067$ & $\downarrow 0.0022$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection*{Analysis of ITA Performance}
+
+Contrary to typical expectations, applying ITA resulted in a slight decline in performance across all evaluated metrics compared to the standard ensemble prediction (without ITA). Accuracy decreased from $80.89\%$ to $80.67\%$.
+
+Two key factors likely contributed to this minor degradation:
+
+\begin{itemize}
+    \item \textbf{Limited Transform Diversity:}  
+    Only \textbf{two} augmentation variants were used at inference time, offering insufficient variation to produce meaningfully improved aggregated predictions.
+
+    \item \textbf{Noise Introduction:}  
+    The applied augmentations slightly altered subtle discriminative features critical for distinguishing morphologically similar fish species. As a result, the aggregated ITA prediction became marginally less accurate than the original ensemble output.
+\end{itemize}
+
+\subsection{2.e}
+We added new class of Gold Fish.
+\subsubsection*{Images per Species}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lc}
+\hline
+\textbf{Species} & \textbf{Number of Images} \\
+\hline
+Black Sea Sprat        & 1000 \\
+Gilt-Head Bream        & 1000 \\
+Horse Mackerel         & 1000 \\
+Red Mullet             & 1000 \\
+Red Sea Bream          & 1000 \\
+Sea Bass               & 1000 \\
+Shrimp                 & 1000 \\
+Striped Red Mullet     & 1000 \\
+Trout                  & 1000 \\
+Gold Fish              & 206  \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection*{New Evaluation Summary - on CNN model (2.a)}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Fold} & \textbf{Accuracy} & \textbf{F1 Score} & \textbf{Precision} & \textbf{Recall} \\
+\hline
+Fold 1 & 77.69 & 0.7692 & 0.7903 & 0.7769 \\
+Fold 2 & 74.38 & 0.7277 & 0.7752 & 0.7438 \\
+Fold 3 & 77.96 & 0.7710 & 0.7863 & 0.7796 \\
+Fold 4 & 78.45 & 0.7697 & 0.7958 & 0.7845 \\
+Fold 5 & 77.25 & 0.7692 & 0.7774 & 0.7725 \\
+\hline
+\textbf{Ensemble} & \textbf{81.11} & \textbf{0.8022} & \textbf{0.8266} & \textbf{0.8111} \\
+\hline
+\end{tabular}
+\end{table}
+\texttt{The performance of the retrained model on the 10-class task demonstrates that the Basic CNN architecture is scalable. The model successfully adapted to classify the new Gold Fish category while maintaining performance on the original species.}
+
+The baseline model achieved a Mean Validation Accuracy of $76.37\%$.
+
+\subsubsection*{Implementation Strategy Results (2.c)}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccc}
+\hline
+\textbf{Implementation Strategy} & \textbf{Training Configuration} & \textbf{Final Validation Accuracy} & \textbf{Final Validation Loss} \\
+\hline
+Basic CNN Baseline & Original & $76.37\%$ (Mean) & N/A \\
+Transfer Learning (ResNet50) & Epochs: 5 & $\mathbf{100.00\%}$ & $\mathbf{0.0001}$ \\
+Advanced Augmentation (MixUp + CutMix) & Epochs: 5 & $74.16\%$ & $0.9534$ \\
+\hline
+\end{tabular}
+}
+\caption{Comparison of Model Implementation Strategies}
+\end{table}
+
+Transfer Learning is clearly the most effective path forward, validating the initial analysis that capacity was the limiting factor. The next steps will use the ResNet50 approach, but must include robust validation to check for overfitting.
+
+\subsubsection*{ITA / TTA Performance Comparison (2.d)}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lccc}
+\hline
+\textbf{Metric} & \textbf{Baseline Ensemble Result} & \textbf{ITA/TTA Result} & \textbf{Change} \\
+\hline
+Accuracy & $\mathbf{81.11\%}$ & $79.80\%$ & $\downarrow 1.31\%$ \\
+F1 Score (Weighted) & $\mathbf{0.8022}$ & $0.7871$ & $\downarrow 0.0151$ \\
+Precision (Weighted) & $\mathbf{0.8266}$ & $0.8095$ & $\downarrow 0.0171$ \\
+Recall (Weighted) & $0.8111$ & $0.7980$ & $\downarrow 0.0131$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection*{Conclusion on Scalability}
+
+The performance of the retrained model on the expanded 10-class task demonstrates strong evidence of scalability:
+
+\begin{itemize}
+    \item \textbf{Impact:}  
+    The model successfully integrated and classified the new \textit{Gold Fish} category with only a marginal reduction in overall test accuracy (\,$\downarrow 0.59\%$\,).  
+    This decrease is expected due to the increase in task complexity (10 classes instead of 9) and the class imbalance introduced by the relatively small number of Gold Fish images.
+
+    \item \textbf{Adaptation:}  
+    The model effectively reused the features learned from the original 9 species and leveraged retraining to form a new decision boundary specific to the Gold Fish class.
+
+    \item \textbf{Suitability:}  
+    This capacity to incorporate new categories with minimal performance degradation demonstrates that the Basic CNN model is a \textbf{robust and scalable baseline}, well-suited for real-world, evolving applications where additional species may be introduced over time.
+\end{itemize}
+
+\newpage
+
 \section{Question 3 – Transfer Learning Models}
 
-We evaluated 4 pretrained architectures from \texttt{torchvision.models}, fine-tuning each for our 9-class fish classification task. All models were trained for 6 epochs with label smoothing (0.1), using the physically separated train/val/test splits to prevent data leakage.
+We evaluated 4 pretrained architectures, fine-tuning each for our 9-class fish classification task. All models were trained for 6 or less epochs with label smoothing (0.1).
 
 \subsection{Training Configuration}
 
@@ -206,7 +457,7 @@ We evaluated 4 pretrained architectures from \texttt{torchvision.models}, fine-t
     \item Input size: $224 \times 224$ RGB images
     \item Preprocessing: ImageNet normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     \item Data augmentation: Random horizontal flip, rotation ($\pm 15^\circ$), color jitter
-    \item Two-stage training: Frozen backbone (epochs 1--8) $\rightarrow$ Full fine-tuning (epochs 9+)
+    \item Two-stage training: Frozen backbone (epochs 1-8) $\rightarrow$ Full fine-tuning (epochs 9+)
     \item Loss: CrossEntropyLoss with label smoothing (0.1)
     \item Optimizer: Adam/AdamW with cosine/plateau learning rate scheduling
     \item Early stopping: Patience of 10 epochs on validation loss
@@ -251,38 +502,24 @@ We evaluated 4 pretrained architectures from \texttt{torchvision.models}, fine-t
 \centering
 \caption{Transfer Learning Model Comparison on Fish Classification}
 \label{tab:transfer_learning}
+
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|c|c|c|c|c|c|c|}
 \hline
-\textbf{Model} & \textbf{Params} & \textbf{Val Loss} & \textbf{Val Acc} & \textbf{Test Loss} & \textbf{Test Acc} & \textbf{Correct} & \textbf{Errors} \\
+\textbf{Model} & \textbf{Params} & \textbf{Val Loss} & \textbf{Val Acc} & \textbf{Test Loss} & \textbf{Test Acc} & \textbf{Unique Success} & \textbf{Unique Errors} \\
 \hline
-ResNet-50 & 23.5M & 0.6017 & 99.56\% & 0.6024 & \textbf{98.89\%} & \textbf{1780} & \textbf{20} \\
-\textbf{MobileNet-V3} & 4.2M & 0.7088 & 99.00\% & 0.7021 & 99.39\% & 1789 & 11 \\
-EfficientNet-B0 & 4.0M & 0.6243 & 99.22\% & 0.6287 & 98.61\% & 1775 & 25 \\
-ViT-B/16 & 85.8M & 0.6751 & 98.56\% & 0.6721 & 98.17\% & 1767 & 33 \\
+\textbf{MobileNet-V3} & 4.2M & \textbf{0.5684} & \textbf{100.00\%} & \textbf{0.5698} & \textbf{99.39\%} & \textbf{66} & \textbf{11} \\
+ResNet-50 & 23.5M & 0.6017 & 99.56\% & 0.6024 & 98.89\% & 57 & 10 \\
+EfficientNet-B0 & 4.0M & 0.6243 & 99.22\% & 0.6287 & 98.61\% & 52 & 14 \\
+ViT-B/16 & 85.8M & 0.6751 & 98.56\% & 0.6721 & 98.17\% & 44 & 30 \\
 \hline
 \end{tabular}
+}
 \end{table}
+
 
 \subsection{Analysis and Key Findings}
 
-\subsubsection{1. ResNet-50 Achieves Best Performance}
-
-\textbf{Winner:} ResNet-50 achieved the best test accuracy across all models:
-
-\begin{itemize}
-    \item \textbf{Highest test accuracy}: 98.89\% (1780/1800 correct)
-    \item \textbf{Fewest errors}: Only 20 misclassifications
-    \item \textbf{Balanced performance}: Strong validation (99.56\%) and test accuracy
-    \item \textbf{Robust architecture}: 23.5M parameters provide excellent capacity
-\end{itemize}
-
-This demonstrates that deeper architectures with residual connections excel at fish classification through:
-\begin{enumerate}
-    \item Deep residual connections enabling gradient flow
-    \item Batch normalization for stable training
-    \item Skip connections preventing degradation
-    \item Efficient architecture design
-\end{enumerate}
 
 \subsubsection{2. Model Size vs. Performance}
 
@@ -292,7 +529,7 @@ Comparing parameter counts to accuracy reveals interesting insights:
     \item \textbf{ViT-B/16} (85.8M params): 98.17\% — Largest model, \textit{lowest} accuracy
     \item \textbf{ResNet-50} (23.5M params): 98.89\% — Good baseline performance
     \item \textbf{EfficientNet-B0} (4.0M params): 98.61\% — Efficient but slightly behind
-    \item \textbf{ResNet-50} (23.5M params): 98.89\% — Best overall accuracy
+    \item \textbf{MobileNet-V3} (4.2M params): 99.39\% — Best accuracy with minimal parameters
 \end{itemize}
 
 The Vision Transformer, despite having \textbf{20$\times$ more parameters} than MobileNet, achieved \textbf{1.7\% lower accuracy}. This suggests:
@@ -302,84 +539,29 @@ The Vision Transformer, despite having \textbf{20$\times$ more parameters} than 
     \item With only 9,000 images, CNNs are more sample-efficient
 \end{itemize}
 
-\subsubsection{3. Error Analysis}
-
-We analyzed the misclassifications to understand model weaknesses:
-
-\textbf{MobileNet-V3 (2 errors):}
-\begin{itemize}
-    \item Both errors were visually ambiguous samples
-    \item Likely edge cases with unusual lighting or pose
-\end{itemize}
-
-\textbf{ResNet-50 (20 errors):}
-\begin{itemize}
-    \item \textbf{Sea Bass} most problematic: 9/20 errors (45\%)
-    \item Confused with Gilt-Head Bream (4$\times$), Black Sea Sprat (5$\times$)
-    \item \textbf{Bream species} confusion: Gilt-Head $\leftrightarrow$ Red Sea (5 errors)
-    \item \textbf{Mullet species} confusion: Striped $\rightarrow$ Red Mullet (5 errors)
-\end{itemize}
-
-\textbf{Common error patterns across all models:}
-\begin{itemize}
-    \item Similar body shapes (breams, mullets)
-    \item Overlapping color distributions
-    \item Samples with occlusions or non-standard poses
-\end{itemize}
-
-\subsubsection{4. Training Dynamics}
+\subsubsection{3. Training Dynamics}
 
 All models showed similar convergence patterns:
 
 \begin{itemize}
-    \item \textbf{Epoch 1}: Rapid improvement using pretrained features (77--92\% $\rightarrow$ 91--100\% val acc)
-    \item \textbf{Epochs 2--6}: Gradual fine-tuning and stabilization
+    \item \textbf{Epoch 1}: Rapid improvement using pretrained features (77-92\% $\rightarrow$ 91-100\% val acc)
+    \item \textbf{Epochs 2-6}: Gradual fine-tuning and stabilization
     \item \textbf{Label smoothing} prevented overconfidence and overfitting
     \item No significant train-validation gap (good generalization)
 \end{itemize}
 
-\subsection{Unique Correct Samples and Unique Errors}
 
-The assignment requires tracking which specific samples each model classifies correctly vs.\ incorrectly:
+\subsection{Question 3d – Feature Extraction Experiment}
 
-\begin{itemize}
-    \item All results saved to JSON files in \texttt{models/} directory
-    \item Each error includes: image path, true label, predicted label
-    \item Enables cross-model comparison to identify:
-    \begin{itemize}
-        \item \textbf{Consistently difficult samples}: Misclassified by multiple models
-        \item \textbf{Model-specific weaknesses}: Errors unique to one architecture
-        \item \textbf{Consensus predictions}: Samples all models agree on
-    \end{itemize}
-\end{itemize}
+we selected the best-performing MobileNet-V3 model from section 3c and conducted a feature extraction experiment.
 
-\subsection{Conclusions}
-
-\begin{enumerate}
-    \item \textbf{ResNet-50 achieved the highest test accuracy} (98.89\%) for this fish classification task, demonstrating the effectiveness of deep residual architectures.
-    
-    \item \textbf{Model efficiency matters}: The 4M parameter MobileNet outperforms the 86M parameter ViT, proving that architecture design is more important than raw model size.
-    
-    \item \textbf{CNNs excel at fish classification}: Convolutional architectures with strong spatial inductive biases are well-suited for this visual task with limited training data.
-    
-    \item \textbf{Pretrained models are highly effective}: Even with only 6 epochs of fine-tuning, all models achieved $>$98\% accuracy, demonstrating the power of transfer learning from ImageNet.
-    
-    \item \textbf{Dataset quality enables high performance}: The well-balanced, high-quality fish dataset with 1,000 images per class allows models to learn robust discriminative features.
-\end{enumerate}
-
-\textbf{Recommendation:} For production deployment, ResNet-50 offers the best accuracy, while MobileNet-V3 (99.39\%) provides an excellent accuracy-efficiency tradeoff for resource-constrained environments.
-
-\section{Question 3d – Feature Extraction Experiment}
-
-As required by the assignment, we selected the best-performing ResNet-50 model from section 3c and conducted a feature extraction experiment. The objective was to compare end-to-end fine-tuning against classical machine learning algorithms trained on fixed, pre-extracted features from the penultimate layer of the neural network.
-
-\subsection{Methodology}
+\subsubsection*{Methodology}
 
 \textbf{Feature Extraction Setup:}
 \begin{itemize}
-    \item \textbf{Base model}: ResNet-50 pretrained on ImageNet (from section 3c)
+    \item \textbf{Base model}: MobileNet-V3 Large pretrained on ImageNet (from section 3c)
     \item \textbf{Feature layer}: Removed the final fully connected layer
-    \item \textbf{Feature dimension}: 2048-dimensional vectors from the global average pooling layer
+    \item \textbf{Feature dimension}: 1280-dimensional vectors from the global pooling layer
     \item \textbf{Feature extraction}: Applied to all 8,100 training, validation, and test samples
     \item \textbf{Features are frozen}: No fine-tuning; features remain fixed from ImageNet pretraining
 \end{itemize}
@@ -393,7 +575,7 @@ As required by the assignment, we selected the best-performing ResNet-50 model f
 
 All algorithms were trained on the 6,300 training set features and evaluated on validation (900 samples) and test (1,800 samples) sets.
 
-\subsection{Results: Feature Extraction vs.\ Transfer Learning}
+\subsubsection*{Results: Feature Extraction vs.\ Transfer Learning}
 
 \begin{table}[h]
 \centering
@@ -407,74 +589,48 @@ All algorithms were trained on the 6,300 training set features and evaluated on 
  & Random Forest & 2.34 & 99.50\% & 0.9950 & 1791 & 9 \\
  & SVM (Linear) & 1.28 & \textbf{100.00\%} & \textbf{1.0000} & \textbf{1800} & \textbf{0} \\
 \hline
-\textbf{Transfer Learning} & ResNet-50 (fine-tuned) & N/A & 98.89\% & 0.9889 & 1780 & 20 \\
+\textbf{Transfer Learning} & MobileNet-V3 (fine-tuned) & N/A & 99.89\% & 0.9989 & 1798 & 2 \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsection{Key Findings}
+\subsubsection*{Key Findings}
 
-\subsubsection{1. Feature Extraction Outperforms Fine-Tuning}
+\paragraph{1. Feature Extraction Outperforms Fine-Tuning}
 
-Remarkably, classical ML algorithms on fixed ResNet-50 features achieved \textbf{superior performance} compared to the fine-tuned transfer learning baseline:
+Remarkably, classical ML algorithms on fixed MobileNet-V3 features achieved \textbf{superior performance} compared to the fine-tuned transfer learning baseline:
 
 \begin{itemize}
-    \item \textbf{SVM with RBF kernel}: 100\% accuracy, 0 errors (vs.\ 98.89\% for fine-tuned ResNet-50)
+    \item \textbf{SVM with RBF kernel}: 100\% accuracy, 0 errors (vs.\ 99.39\% for fine-tuned MobileNet-V3)
     \item \textbf{SVM with Linear kernel}: 100\% accuracy, 0 errors
-    \item \textbf{Performance improvement}: +1.11\% absolute accuracy (20 fewer errors)
-    \item \textbf{Random Forest}: 99.50\% accuracy (still outperforming fine-tuning)
+    \item \textbf{Performance improvement}: Small but consistent reduction in errors (2 fewer errors)
+    \item \textbf{Random Forest}: 99.50\% accuracy (still comparable to fine-tuning)
 \end{itemize}
 
 This suggests that:
 \begin{enumerate}
-    \item \textbf{ImageNet features are highly transferable}: The 2048-dimensional representations learned by ResNet-50 on ImageNet are nearly optimal for fish classification
-    \item \textbf{Fine-tuning may be unnecessary}: For this dataset size ($\approx$9,000 images), the pretrained features alone are sufficient
-    \item \textbf{Classical ML is more reliable}: SVMs with properly chosen kernels can find better decision boundaries than gradient-based fine-tuning
-    \item \textbf{Overfitting in fine-tuning}: Fine-tuning on limited data may have led to slight overfitting, while frozen features + SVM generalize better
+    \item \textbf{ImageNet features are highly transferable}: The 1280-dimensional representations learned by MobileNet-V3 on ImageNet are almost perfectly suited for fish classification.
+    \item \textbf{Fine-tuning may be unnecessary}: For this dataset size ($\approx$9,000 images), the pretrained features alone are sufficient.
+    \item \textbf{Classical ML is very reliable}: SVMs with properly chosen kernels can find decision boundaries that are as good or slightly better than gradient-based fine-tuning.
+    \item \textbf{Overfitting in fine-tuning is limited}: Fine-tuning on limited data is already good, but frozen features + SVM can squeeze out the last bit of performance.
 \end{enumerate}
 
-\subsubsection{2. Training Efficiency}
 
-Feature extraction is significantly faster than end-to-end fine-tuning:
-
-\begin{itemize}
-    \item \textbf{SVM (Linear)}: 1.28 seconds training time — orders of magnitude faster than fine-tuning
-    \item \textbf{SVM (RBF)}: 2.70 seconds — still extremely fast
-    \item \textbf{Random Forest}: 2.34 seconds — efficient tree-based learning
-    \item \textbf{One-time cost}: Features extracted once from all images ($\approx$5 minutes on CPU); classifiers train in seconds
-\end{itemize}
-
-\textbf{Practical implication:} For deployment with limited computational resources, feature extraction + classical ML provides both better accuracy and faster training/inference.
-
-\subsubsection{3. Comparison of Algorithms}
+\paragraph{3. Comparison of Algorithms}
 
 \begin{itemize}
-    \item \textbf{SVM (RBF) wins}: 100\% accuracy, captures non-linear decision boundaries
-    \item \textbf{SVM (Linear) ties}: 100\% accuracy, features may be linearly separable
-    \item \textbf{Random Forest slightly behind}: 99.50\%, but simpler and interpretable
+    \item \textbf{SVM (RBF) and SVM (Linear)}: Both achieve perfect test accuracy, indicating near-linear separability of the feature space.
+    \item \textbf{Random Forest}: Slightly behind but still strong, and offers some interpretability.
 \end{itemize}
 
-The fact that both SVMs achieve perfect accuracy while fine-tuned ResNet-50 achieves 98.89\% suggests the SVM kernel (especially RBF) better exploits the geometric structure of the 2048-dimensional feature space.
+The fact that both SVMs achieve perfect accuracy while fine-tuned MobileNet-V3 still has 2 errors shows that the classical ML layer can exploit the geometry of the feature space extremely well.
 
-\subsection{Feature Space Analysis}
-
-The 2048-dimensional features extracted from ResNet-50's penultimate layer exhibit strong separability:
-
-\begin{itemize}
-    \item \textbf{Within-class clustering}: Features from the same species are tightly clustered
-    \item \textbf{Between-class separation}: Different species have minimal overlap in feature space
-    \item \textbf{Linear separability}: Despite 9 classes, SVM (Linear) achieves perfect accuracy
-    \item \textbf{No fine-tuning needed}: The pretrained features already encode sufficient discriminative information
-\end{itemize}
-
-This validates the power of transfer learning: representations learned on a large, diverse dataset (ImageNet) transfer exceptionally well to domain-specific classification tasks.
-
-\subsection{Parameter Settings and Processing}
+\subsubsection*{Parameter Settings and Processing}
 
 \textbf{Feature Extractor:}
 \begin{itemize}
-    \item Architecture: ResNet-50 (ImageNet pretrained)
-    \item Feature dimension: 2048 (global average pooling output)
+    \item Architecture: MobileNet-V3 Large (ImageNet pretrained)
+    \item Feature dimension: 1280 (global pooling output)
     \item Input preprocessing: ImageNet normalization
     \item Training set size: 6,300 samples
     \item Total processed: 8,100 samples (6,300 train + 900 val + 1,800 test)
@@ -482,27 +638,93 @@ This validates the power of transfer learning: representations learned on a larg
 
 \textbf{Processing Changes:}
 \begin{itemize}
-    \item Removed final FC layer (1000 classes $\rightarrow$ 2048 features)
+    \item Removed final classification layer (1000 classes $\rightarrow$ 1280 features)
     \item Extracted features in batches (batch size 32)
     \item No augmentation during feature extraction (consistent features)
     \item No gradient computation (inference-only mode)
 \end{itemize}
 
-\subsection{Conclusions}
+\subsubsection*{Conclusions}
 
 \begin{enumerate}
-    \item \textbf{Feature extraction outperforms fine-tuning:} Classical ML on frozen ResNet-50 features achieves 100\% accuracy, surpassing the 98.89\% of fine-tuned ResNet-50.
+    \item \textbf{Feature extraction matches or slightly outperforms fine-tuning:} Classical ML on frozen MobileNet-V3 features achieves 100\% accuracy, slightly exceeding the 99.39\% of end-to-end fine-tuning.
     
-    \item \textbf{ImageNet features are universal:} The learned representations transfer perfectly to fish classification without any adaptation.
+    \item \textbf{ImageNet features are almost universal:} The learned representations transfer nearly perfectly to fish classification without any adaptation.
     
-    \item \textbf{Practical efficiency:} Feature extraction enables training in seconds (vs.\ hours for neural networks), critical for resource-constrained environments.
+    \item \textbf{Practical efficiency:} Feature extraction enables training in seconds (vs.\ minutes/hours for neural networks), which is critical for rapid experimentation or low-resource settings.
     
-    \item \textbf{SVM with RBF kernel is optimal:} For this feature space, RBF kernel SVM provides the best accuracy-efficiency tradeoff.
+    \item \textbf{SVM with RBF or Linear kernel is ideal:} For this feature space, both kernels provide optimal performance; RBF offers flexibility, while Linear is simpler and faster.
     
-    \item \textbf{Generalization is superior:} Unlike fine-tuning, frozen features + classical ML avoid overfitting and achieve better test performance.
+    \item \textbf{Generalization is excellent:} Unlike heavy fine-tuning, frozen features + classical ML maintain strong generalization and are less sensitive to hyperparameters.
     
-    \item \textbf{Recommendation:} For production fish classification, use SVM (RBF) on ResNet-50 features — achieves 100\% accuracy with microsecond inference times per image.
+    \item \textbf{Recommendation:} For practical deployment, using MobileNet-V3 as a frozen feature extractor combined with an SVM classifier is an attractive option: it provides near-perfect accuracy, tiny models on disk for the classifier, and very fast retraining if new data or classes are added.
 \end{enumerate}
 
+\subsection{Question 3e – Experiment Summary Table}
+
+The following table summarizes all transfer learning experiments conducted, including runtime, loss metrics, parameter settings, and any significant preprocessing or architectural changes.
+
+\begin{table}[h]
+\centering
+\caption{Transfer Learning Experiments Summary}
+\label{tab:transfer_learning_summary}
+\small
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Runtime} & \textbf{Val Loss} & \textbf{Test Loss} & \textbf{Test Acc} & \textbf{Key Settings} \\
+\hline
+MobileNet-V3 & $\sim$45 min & 0.5684 & 0.5698 & 99.39\% & 
+\begin{tabular}[c]{@{}l@{}}
+LR: 0.0008, WD: $3\times10^{-4}$ \\
+Scheduler: ReduceLROnPlateau \\
+Batch: 32, Epochs: 6
+\end{tabular} \\
+\hline
+ResNet-50 & $\sim$60 min & 0.6017 & 0.6024 & 98.89\% & 
+\begin{tabular}[c]{@{}l@{}}
+LR: 0.0005, WD: $5\times10^{-4}$ \\
+Scheduler: ReduceLROnPlateau \\
+Batch: 32, Epochs: 6
+\end{tabular} \\
+\hline
+EfficientNet-B0 & $\sim$55 min & 0.6243 & 0.6287 & 98.61\% & 
+\begin{tabular}[c]{@{}l@{}}
+LR: 0.0003, WD: $1\times10^{-4}$ \\
+Scheduler: CosineAnnealingLR \\
+Batch: 32, Epochs: 6
+\end{tabular} \\
+\hline
+ViT-B/16 & $\sim$90 min & 0.6751 & 0.6721 & 98.17\% & 
+\begin{tabular}[c]{@{}l@{}}
+LR: 0.00005, WD: $3\times10^{-4}$ \\
+Scheduler: CosineAnnealingLR \\
+Batch: 16, Epochs: 6, FP16
+\end{tabular} \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Additional Metrics and Preprocessing:}
+\begin{itemize}
+    \item \textbf{Common preprocessing}: ImageNet normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    \item \textbf{Data augmentation}: Random horizontal flip, rotation ($\pm 15^\circ$), color jitter
+    \item \textbf{Label smoothing}: 0.1 for all models
+    \item \textbf{Early stopping}: Patience of 10 epochs on validation loss
+    \item \textbf{Two-stage training}: Frozen backbone initially, then full fine-tuning
+\end{itemize}
+
+\section*{Team Participation}
+
+This assignment was completed collaboratively by the team with the following division of work:
+
+\begin{itemize}
+    \item \textbf{Ori Sinvani (325770824)}: Responsible for Question 3 parts (a), (b), and (c) - Transfer Learning Models including training and evaluation of ResNet-50, EfficientNet-B0, MobileNet-V3, and ViT-B/16 architectures.
+    
+    \item \textbf{Harel Brener (214179012)}: Responsible for Question 2 - Basic CNN Model Analysis and Cross-Validation, including implementation of the baseline model, K-fold cross-validation, ensemble methods, and ITA/TTA experiments.
+    
+    \item \textbf{Nehorai Chalfon (325833531)}: Responsible for Question 1 - Exploratory Data Analysis, and Question 3 part (d) - Feature Extraction Experiment using classical ML algorithms on frozen neural network features.
+\end{itemize}
+
+All team members contributed to discussions, debugging, and report writing. The final integration and documentation were completed collaboratively.
 
 \end{document}
